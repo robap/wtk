@@ -1,0 +1,41 @@
+<?xml version="1.0"?>
+<project name="Widget Toolkit" default="usage">
+  
+  <property name="base_dir" location="." />
+  <property name="src_dir" location="${base_dir}/src" />
+  <property name="closure_lib_dir" location="${base_dir}/lib/closure-library/closure" />
+  <property name="jar_dir" location="${base_dir}/jar" />
+  <property name="soy_lib_dir" location="${base_dir}/lib/soy" />
+  <property name="soy_template_dir" location="${base_dir}/build/templates" />
+  <property name="build_dir" location="${base_dir}/build" />
+  
+  <target name="build-templates" description="build templates">
+    <java jar="${jar_dir}/SoyToJsSrcCompiler.jar" fork="true" failonerror="true" logError="true">
+      <arg line='--outputPathFormat ${build_dir}/templates/dialog.soy.js' />
+      <arg line='--shouldGenerateJsdoc' />
+      <arg line='--shouldProvideRequireSoyNamespaces' />
+      <arg line='${src_dir}/dialog/dialog.soy' />
+    </java>
+  </target>
+  
+  <target name="build-deps" description="calculate and build dependancies">
+    <antcall target="build-templates">
+    </antcall>
+    
+    <exec executable="python" failonerror="true" logError="true" output="${build_dir}/deps.js">
+      <arg value="${closure_lib_dir}/bin/calcdeps.py" />
+      <arg line='-p "${closure_lib_dir}"' />
+      <arg line='-p "${soy_lib_dir}"' />
+      <arg line='-p "${soy_template_dir}"' />
+      <arg line='-p "${src_dir}"' />
+      <arg line="-o deps" />
+    </exec>
+  </target>
+  
+  <target name="usage" description="Usage">
+    <java classname="org.apache.tools.ant.Main">
+      <arg value="-projecthelp" />
+    </java>
+  </target>
+
+</project>
