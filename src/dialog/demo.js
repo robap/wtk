@@ -18,8 +18,11 @@ goog.require('goog.dom');
 goog.require('goog.ui.Button');
 
 goog.require('WTK.dialog.Dialog');
+goog.require('WTK.theme.Switcher');
 
 WTK.demo.dialog = function(button_id) {
+  new WTK.theme.Switcher();
+  
   var diag = new WTK.dialog.Dialog();
   diag.setTitle('Demo Dialog');
   diag.setContent('<p>This is the inner content of the Dialog</p>');
