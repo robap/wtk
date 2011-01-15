@@ -21,6 +21,8 @@ goog.require('WTK.dialog.Dialog');
 
 WTK.demo.dialog = function(button_id) {
   var diag = new WTK.dialog.Dialog();
+  diag.setTitle('Demo Dialog');
+  diag.setContent('<p>This is the inner content of the Dialog</p>');
   diag.render();
   
   var button = new goog.ui.Button();

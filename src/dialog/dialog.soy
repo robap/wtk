@@ -17,17 +17,18 @@
 /**
  * @param header_id
  * @param close_id
+ * @param title_id
+ * @param content_id
  */
 {template .dialog}
   <div class="ui-dialog ui-widget ui-widget-content ui-corner-all ui-draggable">
     <div id="{$header_id}" class="ui-dialog-titlebar ui-widget-header ui-corner-all ui-helper-clearfix">
-      <span class="ui-dialog-title" id="ui-dialog-title-dialog">Dialog Title</span>
+      <span class="ui-dialog-title" id="{$title_id}"></span>
       <a href="#" id="{$close_id}" class="ui-dialog-titlebar-close ui-corner-all" role="button">
         <span class="ui-icon ui-icon-closethick">close</span>
       </a>
     </div>
-    <div id="dialog" class="ui-dialog-content ui-widget-content" style="width: auto; min-height: 58.4px; height: auto;">
-      <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.</p>
+    <div id="{$content_id}" class="ui-dialog-content ui-widget-content" style="width: auto; min-height: 58.4px; height: auto;">
     </div>
   </div>
 {/template}

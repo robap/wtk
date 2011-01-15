@@ -34,12 +34,24 @@ goog.inherits(WTK.dialog.Dialog, goog.ui.Component);
 WTK.dialog.Dialog.prototype.showing_ = false;
 
 /**
+ * @type string
+ */
+WTK.dialog.Dialog.prototype.content_ = '';
+
+/**
+ * @type string
+ */
+WTK.dialog.Dialog.prototype.title_ = '';
+
+/**
  * @inheritDoc
  */
 WTK.dialog.Dialog.prototype.createDom = function() {
   var data = {
     'header_id': this.makeId(WTK.dialog.Dialog.IdFragment.HEADER),
-    'close_id' : this.makeId(WTK.dialog.Dialog.IdFragment.CLOSE)
+    'close_id' : this.makeId(WTK.dialog.Dialog.IdFragment.CLOSE),
+    'content_id' : this.makeId(WTK.dialog.Dialog.IdFragment.CONTENT),
+    'title_id' : this.makeId(WTK.dialog.Dialog.IdFragment.TITLE)
   };
   var outer = goog.dom.htmlToDocumentFragment(WTK.templates.dialog(data));
   this.setElementInternal(outer);
@@ -53,7 +65,19 @@ WTK.dialog.Dialog.prototype.createDom = function() {
 WTK.dialog.Dialog.prototype.enterDocument = function() {
   goog.base(this, 'enterDocument');
   
+  this.setTitleInternal_();
+  this.setContentInternal_();
+  
   this.attachListeners_();
+};
+
+/**
+ * @inheritDoc
+ */
+WTK.dialog.Dialog.prototype.exitDocument = function() {
+  this.detachListeners_();
+  
+  goog.base(this, 'exitDocument');
 };
 
 /**
@@ -83,12 +107,43 @@ WTK.dialog.Dialog.prototype.close = function() {
 };
 
 /**
- * @inheritDoc
+ * Sets the title of the Dialog
+ * 
+ * @param {String} title
  */
-WTK.dialog.Dialog.prototype.dispose = function() {
-  this.detachListeners_();
-  
-  goog.base(this, 'dispose');
+WTK.dialog.Dialog.prototype.setTitle = function(title) {
+  this.title_ = title;
+  this.setTitleInternal_();
+};
+
+/**
+ * @private
+ */
+WTK.dialog.Dialog.prototype.setTitleInternal_ = function() {
+  if(this.isInDocument()) {
+    var title_el = this.getElementByFragment(WTK.dialog.Dialog.IdFragment.TITLE);
+    title_el.innerHTML = this.title_;
+  }
+};
+
+/**
+ * Sets the content of the Dialog
+ * 
+ * @param {String} content
+ */
+WTK.dialog.Dialog.prototype.setContent = function(content) {
+  this.content_ = content;
+  this.setContentInternal_();
+};
+
+/**
+ * @private
+ */
+WTK.dialog.Dialog.prototype.setContentInternal_ = function() {
+  if(this.isInDocument()) {
+    var content_el = this.getElementByFragment(WTK.dialog.Dialog.IdFragment.CONTENT);
+    content_el.innerHTML = this.content_;
+  }
 };
 
 /**
@@ -127,6 +182,8 @@ WTK.dialog.Dialog.prototype.handleCloseClick_ = function(event) {
 };
 
 WTK.dialog.Dialog.IdFragment = {
-  HEADER : 'h',
-  CLOSE  : 'c'
+  HEADER  : 'head',
+  TITLE   : 'title',
+  CLOSE   : 'close',
+  CONTENT : 'cont'
 };
