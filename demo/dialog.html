@@ -21,12 +21,10 @@
     <link rel="stylesheet" type="text/css" href="css/demo.css">
     <link rel="stylesheet" href="../lib/closure-library/closure/goog/css/menu.css">
     <link rel="stylesheet" href="../lib/closure-library/closure/goog/css/menuitem.css">
-    <link rel="stylesheet" href="../lib/closure-library/closure/goog/css/menuitemseparator.css">
     <link rel="stylesheet" href="../lib/closure-library/closure/goog/css/combobox.css">
     <link rel="stylesheet" type="text/css" href="css/themes/ui-lightness/jquery-ui-1.8.8.custom.css">
     <script src="../lib/closure-library/closure/goog/base.js"></script>
     <script src="../build/deps.js"></script>
-    <script src="../src/dialog/demo.js"></script>
   </head>
   <body>
     <div>
@@ -35,7 +33,28 @@
     </div>
     
     <script>
-      WTK.demo.dialog('show_dialog');
+      goog.provide('WTK.demo.dialog');
+
+      goog.require('goog.dom');
+      goog.require('goog.ui.Button');
+
+      goog.require('WTK.dialog.Dialog');
+      goog.require('WTK.theme.Switcher');
+    </script>
+    <script>
+      new WTK.theme.Switcher();
+  
+      var diag = new WTK.dialog.Dialog();
+      diag.setTitle('Demo Dialog');
+      diag.setContent('<p>This is the inner content of the Dialog</p>');
+      diag.render();
+
+      var button = new goog.ui.Button();
+      button.decorate(goog.dom.getElement('show_dialog'));
+
+      goog.events.listen(button, goog.ui.Component.EventType.ACTION, function(){
+        diag.open();
+      }, null, this);
     </script>
   </body>
 </html>
