@@ -17,30 +17,31 @@
  * demo files. This widget renders itself immediately to the id: "switcher"
  * 
  * ex:
- * <div id="switcher"></div>
- * new WTK.theme.Switcher();
+ * <select id="switcher"></select>
+ * new WTK.theme.Switcher('switcher');
  */
 
 goog.provide('WTK.theme.Switcher');
 
-goog.require('goog.ui.ComboBox');
+goog.require('goog.dom');
+goog.require('goog.dom.forms');
 goog.require('goog.array');
 
 /**
  * @constructor
- * @extends {goog.ui.ComboBox}
  */
-WTK.theme.Switcher = function(opt_domHelper) {
-  goog.base(this, opt_domHelper);
+WTK.theme.Switcher = function() {
+  var div = goog.dom.getElement('switcher');
+  var label = goog.dom.createElement('label');
+  label.innerHTML = 'Select Theme';
+  this.combo_ = goog.dom.createElement('select');
+  goog.dom.appendChild(div, label);
+  goog.dom.appendChild(div, this.combo_);
   
-  this.setUseDropdownArrow(true);
-  this.setDefaultText('Select a theme...');
   this.addThemes_();
-  this.attacheListeners_();
   
-  this.render(goog.dom.getElement('switcher'));
+  goog.events.listen(this.combo_, goog.events.EventType.CHANGE, this.handleChangeEvent_, null, this);
 };
-goog.inherits(WTK.theme.Switcher, goog.ui.ComboBox);
 
 /**
  * @private
@@ -48,27 +49,48 @@ goog.inherits(WTK.theme.Switcher, goog.ui.ComboBox);
 WTK.theme.Switcher.prototype.addThemes_ = function() {
   //put all themes which can possibly be loaded here
   this.themes_ = [
+    'base',
+    'black-tie',
+    'blitzer',
+    'cupertino',
+    'dark-hive',
+    'dot-luv',
+    'eggplant',
+    'excite-bike',
+    'flick',
+    'hot-sneaks',
+    'humanity',
+    'le-frog',
+    'mint-choc',
+    'overcast',
+    'pepper-grinder',
+    'redmond',
     'smoothness',
-    'ui-lightness'
+    'south-street',
+    'start',
+    'sunny',
+    'swanky-purse',
+    'trontastic',
+    'ui-darkness',
+    'ui-lightness',
+    'vader'
   ];
   
+  var option = goog.dom.createElement('option');
+  goog.dom.appendChild(this.combo_, option);
+  
   for(var i=0; i<this.themes_.length; i++) {
-    this.addItem(new goog.ui.ComboBoxItem(this.themes_[i]));
+    option = goog.dom.createElement('option');
+    option.innerHTML = this.themes_[i];
+    goog.dom.appendChild(this.combo_, option);
   }
 };
 
 /**
  * @private
  */
-WTK.theme.Switcher.prototype.attacheListeners_ = function() {
-  this.getHandler().listen(this, goog.ui.Component.EventType.CHANGE, this.handleChangeEvent_);
-};
-
-/**
- * @private
- */
 WTK.theme.Switcher.prototype.handleChangeEvent_ = function() {
-  var value = this.getValue();
+  var value = goog.dom.forms.getValue(this.combo_);
   var i = goog.array.indexOf(this.themes_, value);
   if(i >= 0) {
     this.loadTheme_(this.themes_[i]);
@@ -79,10 +101,9 @@ WTK.theme.Switcher.prototype.handleChangeEvent_ = function() {
  * @private
  */
 WTK.theme.Switcher.prototype.loadTheme_ = function(theme_name) {
-  var dom = this.getDomHelper();
-  var doc = dom.getDocument();
-  var css = 'css/themes/' + theme_name + '/jquery-ui-1.8.8.custom.css';
+  var doc = goog.dom.getDocument();
+  var css = 'http://ajax.googleapis.com/ajax/libs/jqueryui/1.8.8/themes/' + theme_name + '/jquery-ui.css';
   
-  var link = dom.createDom('link', {'rel': 'stylesheet', 'href': css});
+  var link = goog.dom.createDom('link', {'rel': 'stylesheet', 'href': css});
   doc.getElementsByTagName("head")[0].appendChild(link);
 };
