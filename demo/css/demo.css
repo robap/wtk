@@ -3,6 +3,10 @@ root {
     display: block;
 }
 
+body {
+  font-size: 80%;
+}
+
 #switcher {
   position: absolute;
   top: 2px;

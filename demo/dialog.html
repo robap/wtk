@@ -18,6 +18,8 @@
   <head>
     <title>Dialog Demo</title>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <link rel="stylesheet" type="text/css" href="http://yui.yahooapis.com/2.8.2r1/build/reset/reset-min.css">
+    <link rel="stylesheet" type="text/css" href="http://yui.yahooapis.com/2.8.2r1/build/base/base-min.css">
     <link rel="stylesheet" type="text/css" href="css/demo.css">
     <link rel="stylesheet" type="text/css" href="css/themes/ui-lightness/jquery-ui-1.8.8.custom.css">
     <script src="../lib/closure-library/closure/goog/base.js"></script>
@@ -26,7 +28,9 @@
   <body>
     <div>
       <div id="switcher"></div>
-      <button id="show_dialog">Show Dialog</button>
+      <button id="show_dialog" class="ui-button ui-widget ui-state-default ui-corner-all ui-button-text-only">
+        <span class="ui-button-text">Show Dialog</span>
+      </button>
     </div>
     
     <script>
