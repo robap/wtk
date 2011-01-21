@@ -37,13 +37,13 @@
       goog.require('goog.dom');
       goog.require('goog.ui.Button');
 
-      goog.require('WTK.dialog.Dialog');
-      goog.require('WTK.theme.Switcher');
+      goog.require('wtk.Dialog');
+      goog.require('wtk.ThemeSwitcher');
     </script>
     <script>
-      new WTK.theme.Switcher();
+      new wtk.ThemeSwitcher();
   
-      var diag = new WTK.dialog.Dialog();
+      var diag = new wtk.Dialog();
       diag.setTitle('Demo Dialog');
       diag.setContent('<p>This is the inner content of the Dialog</p>');
       diag.render();

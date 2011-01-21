@@ -18,10 +18,10 @@
  * 
  * ex:
  * <select id="switcher"></select>
- * new WTK.theme.Switcher('switcher');
+ * new wtk.ThemeSwitcher('switcher');
  */
 
-goog.provide('WTK.theme.Switcher');
+goog.provide('wtk.ThemeSwitcher');
 
 goog.require('goog.dom');
 goog.require('goog.dom.forms');
@@ -30,7 +30,7 @@ goog.require('goog.array');
 /**
  * @constructor
  */
-WTK.theme.Switcher = function() {
+wtk.ThemeSwitcher = function() {
   var div = goog.dom.getElement('switcher');
   var label = goog.dom.createElement('label');
   label.innerHTML = 'Select Theme';
@@ -46,7 +46,7 @@ WTK.theme.Switcher = function() {
 /**
  * @private
  */
-WTK.theme.Switcher.prototype.addThemes_ = function() {
+wtk.ThemeSwitcher.prototype.addThemes_ = function() {
   //put all themes which can possibly be loaded here
   this.themes_ = [
     'base',
@@ -89,7 +89,7 @@ WTK.theme.Switcher.prototype.addThemes_ = function() {
 /**
  * @private
  */
-WTK.theme.Switcher.prototype.handleChangeEvent_ = function() {
+wtk.ThemeSwitcher.prototype.handleChangeEvent_ = function() {
   var value = goog.dom.forms.getValue(this.combo_);
   var i = goog.array.indexOf(this.themes_, value);
   if(i >= 0) {
@@ -100,7 +100,7 @@ WTK.theme.Switcher.prototype.handleChangeEvent_ = function() {
 /**
  * @private
  */
-WTK.theme.Switcher.prototype.loadTheme_ = function(theme_name) {
+wtk.ThemeSwitcher.prototype.loadTheme_ = function(theme_name) {
   var doc = goog.dom.getDocument();
   var css = 'http://ajax.googleapis.com/ajax/libs/jqueryui/1.8.8/themes/' + theme_name + '/jquery-ui.css';
   

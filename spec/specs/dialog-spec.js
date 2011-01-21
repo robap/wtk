@@ -12,7 +12,7 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-goog.require('WTK.dialog.Dialog');
+goog.require('wtk.Dialog');
 goog.require('goog.dom.query');
 goog.require('goog.style');
 
@@ -20,7 +20,7 @@ describe('Dialog', function(){
   var dialog;
   
   beforeEach(function(){
-    dialog = new WTK.dialog.Dialog();
+    dialog = new wtk.Dialog();
   });
   afterEach(function(){
     dialog.dispose();
@@ -67,7 +67,7 @@ describe('Dialog', function(){
       var test_title = 'test title';
       dialog.setTitle(test_title);
       dialog.render();
-      var dom_title = dialog.getElementByFragment(WTK.dialog.Dialog.IdFragment.TITLE).innerHTML;
+      var dom_title = dialog.getElementByFragment(wtk.Dialog.IdFragment.TITLE).innerHTML;
       expect(dom_title).toEqual(test_title);
     });
   });
@@ -76,7 +76,7 @@ describe('Dialog', function(){
       var test_content = 'test content';
       dialog.setContent(test_content);
       dialog.render();
-      var dom_content = dialog.getElementByFragment(WTK.dialog.Dialog.IdFragment.CONTENT).innerHTML;
+      var dom_content = dialog.getElementByFragment(wtk.Dialog.IdFragment.CONTENT).innerHTML;
       expect(dom_content).toEqual(test_content);
     });
   });
@@ -84,7 +84,7 @@ describe('Dialog', function(){
     describe('when rendered', function(){
       it('close click action is applied', function() {
         dialog.render();
-        var close = dialog.getElementByFragment(WTK.dialog.Dialog.IdFragment.CLOSE);
+        var close = dialog.getElementByFragment(wtk.Dialog.IdFragment.CLOSE);
         var listeners = goog.events.getListeners(close, goog.events.EventType.CLICK, false);
         expect(listeners.length).toEqual(1);
       });
@@ -92,7 +92,7 @@ describe('Dialog', function(){
     describe('when disposed', function(){
       it('close click action is removed', function() {
         dialog.render();
-        var close = dialog.getElementByFragment(WTK.dialog.Dialog.IdFragment.CLOSE);
+        var close = dialog.getElementByFragment(wtk.Dialog.IdFragment.CLOSE);
         dialog.dispose();
         var listeners = goog.events.getListeners(close, goog.events.EventType.CLICK, false);
         expect(listeners.length).toEqual(0);

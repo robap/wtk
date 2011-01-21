@@ -12,9 +12,9 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-goog.provide('WTK.dialog.Dialog');
+goog.provide('wtk.Dialog');
 
-goog.require('WTK.templates');
+goog.require('wtk.templates');
 goog.require('goog.ui.Component');
 goog.require('goog.style');
 goog.require('goog.fx.Dragger');
@@ -23,37 +23,37 @@ goog.require('goog.fx.Dragger');
  * @constructor
  * @extends {goog.ui.Component}
  */
-WTK.dialog.Dialog = function(opt_domHelper) {
+wtk.Dialog = function(opt_domHelper) {
   goog.base(this, opt_domHelper);
 };
-goog.inherits(WTK.dialog.Dialog, goog.ui.Component);
+goog.inherits(wtk.Dialog, goog.ui.Component);
 
 /**
  * @type bool
  */
-WTK.dialog.Dialog.prototype.showing_ = false;
+wtk.Dialog.prototype.showing_ = false;
 
 /**
  * @type string
  */
-WTK.dialog.Dialog.prototype.content_ = '';
+wtk.Dialog.prototype.content_ = '';
 
 /**
  * @type string
  */
-WTK.dialog.Dialog.prototype.title_ = '';
+wtk.Dialog.prototype.title_ = '';
 
 /**
  * @inheritDoc
  */
-WTK.dialog.Dialog.prototype.createDom = function() {
+wtk.Dialog.prototype.createDom = function() {
   var data = {
-    'header_id': this.makeId(WTK.dialog.Dialog.IdFragment.HEADER),
-    'close_id' : this.makeId(WTK.dialog.Dialog.IdFragment.CLOSE),
-    'content_id' : this.makeId(WTK.dialog.Dialog.IdFragment.CONTENT),
-    'title_id' : this.makeId(WTK.dialog.Dialog.IdFragment.TITLE)
+    'header_id': this.makeId(wtk.Dialog.IdFragment.HEADER),
+    'close_id' : this.makeId(wtk.Dialog.IdFragment.CLOSE),
+    'content_id' : this.makeId(wtk.Dialog.IdFragment.CONTENT),
+    'title_id' : this.makeId(wtk.Dialog.IdFragment.TITLE)
   };
-  var outer = goog.dom.htmlToDocumentFragment(WTK.templates.dialog(data));
+  var outer = goog.dom.htmlToDocumentFragment(wtk.templates.dialog(data));
   this.setElementInternal(outer);
   
   goog.style.showElement(outer, false);
@@ -62,7 +62,7 @@ WTK.dialog.Dialog.prototype.createDom = function() {
 /**
  * @inheritDoc
  */
-WTK.dialog.Dialog.prototype.enterDocument = function() {
+wtk.Dialog.prototype.enterDocument = function() {
   goog.base(this, 'enterDocument');
   
   this.setTitleInternal_();
@@ -74,7 +74,7 @@ WTK.dialog.Dialog.prototype.enterDocument = function() {
 /**
  * @inheritDoc
  */
-WTK.dialog.Dialog.prototype.exitDocument = function() {
+wtk.Dialog.prototype.exitDocument = function() {
   this.detachListeners_();
   
   goog.base(this, 'exitDocument');
@@ -83,7 +83,7 @@ WTK.dialog.Dialog.prototype.exitDocument = function() {
 /**
  * Opens the dialog
  */
-WTK.dialog.Dialog.prototype.open = function() {
+wtk.Dialog.prototype.open = function() {
   if(this.showing_ === true) {
     return;
   }
@@ -96,7 +96,7 @@ WTK.dialog.Dialog.prototype.open = function() {
 /**
  * Closes the dialog
  */
-WTK.dialog.Dialog.prototype.close = function() {
+wtk.Dialog.prototype.close = function() {
   if(this.showing_ === false) {
     return;
   }
@@ -111,7 +111,7 @@ WTK.dialog.Dialog.prototype.close = function() {
  * 
  * @param {String} title
  */
-WTK.dialog.Dialog.prototype.setTitle = function(title) {
+wtk.Dialog.prototype.setTitle = function(title) {
   this.title_ = title;
   this.setTitleInternal_();
 };
@@ -119,9 +119,9 @@ WTK.dialog.Dialog.prototype.setTitle = function(title) {
 /**
  * @private
  */
-WTK.dialog.Dialog.prototype.setTitleInternal_ = function() {
+wtk.Dialog.prototype.setTitleInternal_ = function() {
   if(this.isInDocument()) {
-    var title_el = this.getElementByFragment(WTK.dialog.Dialog.IdFragment.TITLE);
+    var title_el = this.getElementByFragment(wtk.Dialog.IdFragment.TITLE);
     title_el.innerHTML = this.title_;
   }
 };
@@ -131,7 +131,7 @@ WTK.dialog.Dialog.prototype.setTitleInternal_ = function() {
  * 
  * @param {String} content
  */
-WTK.dialog.Dialog.prototype.setContent = function(content) {
+wtk.Dialog.prototype.setContent = function(content) {
   this.content_ = content;
   this.setContentInternal_();
 };
@@ -139,9 +139,9 @@ WTK.dialog.Dialog.prototype.setContent = function(content) {
 /**
  * @private
  */
-WTK.dialog.Dialog.prototype.setContentInternal_ = function() {
+wtk.Dialog.prototype.setContentInternal_ = function() {
   if(this.isInDocument()) {
-    var content_el = this.getElementByFragment(WTK.dialog.Dialog.IdFragment.CONTENT);
+    var content_el = this.getElementByFragment(wtk.Dialog.IdFragment.CONTENT);
     content_el.innerHTML = this.content_;
   }
 };
@@ -149,7 +149,7 @@ WTK.dialog.Dialog.prototype.setContentInternal_ = function() {
 /**
  * @private
  */
-WTK.dialog.Dialog.prototype.attachListeners_ = function() {
+wtk.Dialog.prototype.attachListeners_ = function() {
   //This bit of code is from goog.ui.Dialog
   var dom = this.getDomHelper();
   var doc = dom.getDocument();
@@ -158,11 +158,11 @@ WTK.dialog.Dialog.prototype.attachListeners_ = function() {
   var w = Math.max(doc.body.scrollWidth, viewSize.width);
   var h = Math.max(doc.body.scrollHeight, viewSize.height);
   var dialogSize = goog.style.getSize(this.getElement());
-  var head = this.getElementByFragment(WTK.dialog.Dialog.IdFragment.HEADER);
+  var head = this.getElementByFragment(wtk.Dialog.IdFragment.HEADER);
   var limits = new goog.math.Rect(0, 0, w - dialogSize.width, h - dialogSize.height);
   var dragger = new goog.fx.Dragger(this.getElement(), head, limits);
   
-  var close = this.getElementByFragment(WTK.dialog.Dialog.IdFragment.CLOSE);
+  var close = this.getElementByFragment(wtk.Dialog.IdFragment.CLOSE);
   this.getHandler().listen(close, goog.events.EventType.CLICK, this.handleCloseClick_);
   
   
@@ -171,17 +171,17 @@ WTK.dialog.Dialog.prototype.attachListeners_ = function() {
 /**
  * @private
  */
-WTK.dialog.Dialog.prototype.detachListeners_ = function() {
-  var close = this.getElementByFragment(WTK.dialog.Dialog.IdFragment.CLOSE);
+wtk.Dialog.prototype.detachListeners_ = function() {
+  var close = this.getElementByFragment(wtk.Dialog.IdFragment.CLOSE);
   this.getHandler().unlisten(close, goog.events.EventType.CLICK, this.handleCloseClick_);
 };
 
-WTK.dialog.Dialog.prototype.handleCloseClick_ = function(event) {
+wtk.Dialog.prototype.handleCloseClick_ = function(event) {
   event.preventDefault();
   this.close();
 };
 
-WTK.dialog.Dialog.IdFragment = {
+wtk.Dialog.IdFragment = {
   HEADER  : 'head',
   TITLE   : 'title',
   CLOSE   : 'close',
