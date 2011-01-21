@@ -9,19 +9,25 @@
   <property name="soy_template_dir" location="${base_dir}/build/templates" />
   <property name="build_dir" location="${base_dir}/build" />
   
+  <macrodef name="generate-template">
+    <attribute name="inputfile" />
+    <attribute name="outputPathFormat" />
+    <sequential>
+      <java jar="${jar_dir}/SoyToJsSrcCompiler.jar" fork="true" failonerror="true" logError="true">
+        <arg line='--outputPathFormat "@{outputPathFormat}"' />
+        <arg line='--shouldGenerateJsdoc' />
+        <arg line='--shouldProvideRequireSoyNamespaces' />
+        <arg line='"@{inputfile}"' />
+      </java>
+    </sequential>
+  </macrodef>
+  
   <target name="build-templates" description="build templates">
-    <java jar="${jar_dir}/SoyToJsSrcCompiler.jar" fork="true" failonerror="true" logError="true">
-      <arg line='--outputPathFormat ${build_dir}/templates/dialog.soy.js' />
-      <arg line='--shouldGenerateJsdoc' />
-      <arg line='--shouldProvideRequireSoyNamespaces' />
-      <arg line='${src_dir}/dialog/dialog.soy' />
-    </java>
+    <generate-template inputfile="${src_dir}/dialog/dialog.soy" 
+                       outputPathFormat="${soy_template_dir}/dialog.soy.js" />
   </target>
   
-  <target name="build-deps" description="calculate and build dependancies">
-    <antcall target="build-templates">
-    </antcall>
-    
+  <target name="build-deps" depends="build-templates" description="calculate and build dependancies">
     <exec executable="python" failonerror="true" logError="true" output="${build_dir}/deps.js">
       <arg value="${closure_lib_dir}/bin/calcdeps.py" />
       <arg line='-p "${closure_lib_dir}"' />
