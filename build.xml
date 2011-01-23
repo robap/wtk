@@ -38,6 +38,20 @@
     </exec>
   </target>
   
+  <target name="compile-all" depends="build-templates" description="Compile all widgets to check for warnings or errors">
+    <exec executable="python" failonerror="true" logError="true" output="${build_dir}/wtk-compiled.js">
+      <arg value="${closure_lib_dir}/bin/calcdeps.py" />
+      <arg line='-p "${closure_lib_dir}"' />
+      <arg line='-p "${soy_lib_dir}"' />
+      <arg line='-p "${soy_template_dir}"' />
+      <arg line='-p "${src_dir}"' />
+      <arg line='-i "${src_dir}/wtk_all.js"' />
+      <arg line='-f "--compilation_level=ADVANCED_OPTIMIZATIONS"' />
+      <arg line='-c "${jar_dir}/compiler.jar"' />
+      <arg line="-o compiled" />
+    </exec>
+  </target>
+  
   <target name="usage" description="Usage">
     <java classname="org.apache.tools.ant.Main">
       <arg value="-projecthelp" />
