@@ -13,7 +13,6 @@
 // limitations under the License.
 
 goog.require('wtk.Dialog');
-goog.require('goog.dom.query');
 goog.require('goog.style');
 
 describe('Dialog', function(){
@@ -25,10 +24,37 @@ describe('Dialog', function(){
   afterEach(function(){
     dialog.dispose();
   });
-  describe('dom', function(){
-    it('Is in the dom when rendered', function(){
+  describe('default state', function() {
+    it('has a width of 300', function() {
+      expect(dialog.getWidth()).toEqual(300);
+    });
+    it('has a height of 200', function() {
+      expect(dialog.getHeight()).toEqual(200);
+    });
+  });
+  describe('#constructor', function() {
+    var width, height;
+    beforeEach(function() {
+      width = 25;
+      height = 46;
+      dialog = new wtk.Dialog(width, height);
+    });
+    it('sets the width and height when supplied', function() {
+      expect(dialog.getWidth()).toEqual(width);
+      expect(dialog.getHeight()).toEqual(height);
+    });
+  });
+  describe('#render', function(){
+    it('Is added to the dom when rendered', function(){
       dialog.render();
-      expect(goog.dom.query(dialog.getElement()).length).toEqual(1);
+      var id = dialog.makeId(wtk.Dialog.IdFragment.DIALOG);
+      var el = goog.dom.getElement(id);
+      expect(el.id).toEqual(id);
+    });
+  });
+  describe('#canDecorate', function() {
+    it('can not be decorated', function() {
+      expect(dialog.canDecorate()).toEqual(false);
     });
   });
   describe('#open', function(){
@@ -82,15 +108,15 @@ describe('Dialog', function(){
   });
   describe('actions', function() {
     describe('when rendered', function(){
-      it('close click action is applied', function() {
+      it('close click listener is attached', function() {
         dialog.render();
         var close = dialog.getElementByFragment(wtk.Dialog.IdFragment.CLOSE);
         var listeners = goog.events.getListeners(close, goog.events.EventType.CLICK, false);
         expect(listeners.length).toEqual(1);
       });
-    })
+    });
     describe('when disposed', function(){
-      it('close click action is removed', function() {
+      it('close click listener is removed', function() {
         dialog.render();
         var close = dialog.getElementByFragment(wtk.Dialog.IdFragment.CLOSE);
         dialog.dispose();

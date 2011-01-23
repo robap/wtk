@@ -15,13 +15,16 @@
 {namespace wtk.templates}
 
 /**
+ * @param widget_id
  * @param header_id
  * @param close_id
  * @param title_id
  * @param content_id
+ * @param width
+ * @param height
  */
 {template .dialog}
-  <div class="ui-dialog ui-widget ui-widget-content ui-corner-all ui-draggable">
+  <div id="{$widget_id}" class="ui-dialog ui-widget ui-widget-content ui-corner-all ui-draggable" style="width: {$width}px; height: {$height}px;">
     <div id="{$header_id}" class="ui-dialog-titlebar ui-widget-header ui-corner-all ui-helper-clearfix">
       <span class="ui-dialog-title" id="{$title_id}"></span>
       <a href="#" id="{$close_id}" class="ui-dialog-titlebar-close ui-corner-all" role="button">

@@ -14,6 +14,7 @@
 
 goog.provide('wtk.Dialog');
 
+goog.require('wtk.State');
 goog.require('wtk.templates');
 goog.require('goog.ui.Component');
 goog.require('goog.style');
@@ -22,36 +23,62 @@ goog.require('goog.fx.Dragger');
 /**
  * @constructor
  * @extends {goog.ui.Component}
+ * @param {number=} opt_width width of Dialog, defaults to 300
+ * @param {number=} opt_height height of Dialog, defaults to 200
+ * @param {goog.dom.DomHelper=} opt_domHelper Optional DOM helper.
  */
-wtk.Dialog = function(opt_domHelper) {
+wtk.Dialog = function(opt_width, opt_height, opt_domHelper) {
+  this.width_ = opt_width || 300;
+  this.height_ = opt_height || 200;
+  
   goog.base(this, opt_domHelper);
 };
 goog.inherits(wtk.Dialog, goog.ui.Component);
 
 /**
- * @type bool
+ * @type {bool}
  */
-wtk.Dialog.prototype.showing_ = false;
+wtk.Dialog.prototype.state_ = wtk.State.CLOSED;
 
 /**
- * @type string
+ * @type {string}
  */
 wtk.Dialog.prototype.content_ = '';
 
 /**
- * @type string
+ * @type {string}
  */
 wtk.Dialog.prototype.title_ = '';
+
+/**
+ * @type {number}
+ */
+wtk.Dialog.prototype.width_ = 0;
+
+/**
+ * @type {number}
+ */
+wtk.Dialog.prototype.height_ = 0;
+
+/**
+ * The Dialog widget is not designed to be decorated, only rendered
+ */
+wtk.Dialog.prototype.canDecorate = function() {
+  return false;
+};
 
 /**
  * @inheritDoc
  */
 wtk.Dialog.prototype.createDom = function() {
   var data = {
+    'widget_id': this.makeId(wtk.Dialog.IdFragment.DIALOG),
     'header_id': this.makeId(wtk.Dialog.IdFragment.HEADER),
     'close_id' : this.makeId(wtk.Dialog.IdFragment.CLOSE),
     'content_id' : this.makeId(wtk.Dialog.IdFragment.CONTENT),
-    'title_id' : this.makeId(wtk.Dialog.IdFragment.TITLE)
+    'title_id' : this.makeId(wtk.Dialog.IdFragment.TITLE),
+    'width'    : this.getWidth(),
+    'height'   : this.getHeight()
   };
   var outer = goog.dom.htmlToDocumentFragment(wtk.templates.dialog(data));
   this.setElementInternal(outer);
@@ -72,38 +99,58 @@ wtk.Dialog.prototype.enterDocument = function() {
 };
 
 /**
- * @inheritDoc
- */
-wtk.Dialog.prototype.exitDocument = function() {
-  this.detachListeners_();
-  
-  goog.base(this, 'exitDocument');
-};
-
-/**
- * Opens the dialog
+ * Opens the dialog, uses open effect if set
  */
 wtk.Dialog.prototype.open = function() {
-  if(this.showing_ === true) {
+  if(this.state_ === wtk.State.OPENED) {
     return;
   }
-  
-  goog.style.showElement(this.getElement(), true);
-  
-  this.showing_ = true;
+  goog.style.setSize(this.getElement(), this.width_, this.height_);
+  if(this.openEffect_) {
+    var anim = this.openEffect_.createAnimation(this);
+    var handler = this.getHandler();
+    handler.listenOnce(anim, goog.fx.Animation.EventType.FINISH, this.handleOpenAnimationFinish_, false, this);
+    goog.style.showElement(this.getElement(), true);
+    anim.play();
+  } else {
+    goog.style.showElement(this.getElement(), true);
+    this.setState_(wtk.State.OPENED);
+  }
 };
 
 /**
- * Closes the dialog
+ * Closes the dialog, uses close effect if set
  */
 wtk.Dialog.prototype.close = function() {
-  if(this.showing_ === false) {
+  if(this.state_ === wtk.State.CLOSED) {
     return;
   }
   
-  goog.style.showElement(this.getElement(), false);
-  
-  this.showing_ = false;
+  if(this.closeEffect_) {
+    var anim = this.closeEffect_.createAnimation(this);
+    var handler = this.getHandler();
+    handler.listenOnce(anim, goog.fx.Animation.EventType.FINISH, this.handleCloseAnimationFinish_, false, this);
+    anim.play();
+  } else {
+    this.setState_(wtk.State.CLOSED);
+    goog.style.showElement(this.getElement(), false);
+  }
+};
+
+wtk.Dialog.prototype.setOpenEffect = function(effect) {
+  this.openEffect_ = effect;
+};
+
+wtk.Dialog.prototype.setCloseEffect = function(effect) {
+  this.closeEffect_ = effect;
+};
+
+wtk.Dialog.prototype.getWidth = function() {
+  return this.width_;
+};
+
+wtk.Dialog.prototype.getHeight = function() {
+  return this.height_;
 };
 
 /**
@@ -164,24 +211,41 @@ wtk.Dialog.prototype.attachListeners_ = function() {
   
   var close = this.getElementByFragment(wtk.Dialog.IdFragment.CLOSE);
   this.getHandler().listen(close, goog.events.EventType.CLICK, this.handleCloseClick_);
-  
-  
 };
 
 /**
  * @private
  */
-wtk.Dialog.prototype.detachListeners_ = function() {
-  var close = this.getElementByFragment(wtk.Dialog.IdFragment.CLOSE);
-  this.getHandler().unlisten(close, goog.events.EventType.CLICK, this.handleCloseClick_);
-};
-
 wtk.Dialog.prototype.handleCloseClick_ = function(event) {
   event.preventDefault();
   this.close();
 };
 
+wtk.Dialog.prototype.handleOpenAnimationFinish_ = function(event) {
+  this.setState_(wtk.State.OPENED);
+  event.anim.dispose();
+};
+
+wtk.Dialog.prototype.handleCloseAnimationFinish_ = function(event) {
+  this.setState_(wtk.State.CLOSED);
+  var el = this.getElement();
+  
+  goog.style.showElement(el, false);
+  event.anim.dispose();
+};
+
+/**
+ * @private
+ */
+wtk.Dialog.prototype.setState_ = function(state) {
+  this.state_ = state;
+};
+
+/**
+ * @enum {string}
+ */
 wtk.Dialog.IdFragment = {
+  DIALOG  : 'dialog',
   HEADER  : 'head',
   TITLE   : 'title',
   CLOSE   : 'close',

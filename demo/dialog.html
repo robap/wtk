@@ -24,6 +24,19 @@
     <link rel="stylesheet" type="text/css" href="css/themes/ui-lightness/jquery-ui-1.8.8.custom.css">
     <script src="../lib/closure-library/closure/goog/base.js"></script>
     <script src="../build/deps.js"></script>
+    
+    <script>
+      goog.require('goog.dom');
+      goog.require('goog.ui.Button');
+      goog.require('goog.fx.easing');
+
+      goog.require('wtk.Dialog');
+      goog.require('wtk.effects.FadeIn');
+      goog.require('wtk.effects.FadeOut');
+      goog.require('wtk.effects.BlindIn');
+      goog.require('wtk.effects.BlindOut');
+      goog.require('wtk.ThemeSwitcher');
+    </script>
   </head>
   <body>
     <div>
@@ -31,29 +44,44 @@
       <button id="show_dialog" class="ui-button ui-widget ui-state-default ui-corner-all ui-button-text-only">
         <span class="ui-button-text">Show Dialog</span>
       </button>
+      <button id="close_dialog" class="ui-button ui-widget ui-state-default ui-corner-all ui-button-text-only">
+        <span class="ui-button-text">Close Dialog</span>
+      </button>
     </div>
     
-    <script>
-      goog.require('goog.dom');
-      goog.require('goog.ui.Button');
-
-      goog.require('wtk.Dialog');
-      goog.require('wtk.ThemeSwitcher');
-    </script>
     <script>
       new wtk.ThemeSwitcher();
   
       var diag = new wtk.Dialog();
       diag.setTitle('Demo Dialog');
       diag.setContent('<p>This is the inner content of the Dialog</p>');
+      
+      var fx = new wtk.effects.FadeIn(200);
+      //var fx = new wtk.effects.BlindIn(200);
+      diag.setOpenEffect(fx);
+      //var fx2 = new wtk.effects.BlindOut(200);
+      var fx2 = new wtk.effects.FadeOut(200);
+      diag.setCloseEffect(fx2)
       diag.render();
 
-      var button = new goog.ui.Button();
-      button.decorate(goog.dom.getElement('show_dialog'));
+      var open_button = new goog.ui.Button();
+      open_button.decorate(goog.dom.getElement('show_dialog'));
+      
+      var close_button = new goog.ui.Button();
+      close_button.decorate(goog.dom.getElement('close_dialog'));
+      close_button.setEnabled(false);
 
-      goog.events.listen(button, goog.ui.Component.EventType.ACTION, function(){
+      goog.events.listen(open_button, goog.ui.Component.EventType.ACTION, function(){
+        open_button.setEnabled(false);
+        close_button.setEnabled(true);
         diag.open();
-      }, null, this);
+      });
+      
+      goog.events.listen(close_button, goog.ui.Component.EventType.ACTION, function(){
+        close_button.setEnabled(false);
+        open_button.setEnabled(true);
+        diag.close();
+      });
     </script>
   </body>
 </html>
