@@ -47,9 +47,7 @@ describe('Dialog', function(){
   describe('#render', function(){
     it('Is added to the dom when rendered', function(){
       dialog.render();
-      var id = dialog.makeId(wtk.Dialog.IdFragment.DIALOG);
-      var el = goog.dom.getElement(id);
-      expect(el.id).toEqual(id);
+      expect(dialog.isInDocument()).toEqual(true);
     });
   });
   describe('#canDecorate', function() {
@@ -122,6 +120,21 @@ describe('Dialog', function(){
         dialog.dispose();
         var listeners = goog.events.getListeners(close, goog.events.EventType.CLICK, false);
         expect(listeners.length).toEqual(0);
+      });
+    });
+    describe('#setPosition', function(){
+      it('sets the element top and left css properties', function() {
+        var left = 100;
+        var top = 200;
+        
+        dialog.setPosition(left, top);
+        dialog.render();
+        dialog.open();
+        
+        var pos = goog.style.getPosition(dialog.getElement());
+        
+        expect(pos.x).toEqual(left);
+        expect(pos.y).toEqual(top);
       });
     });
   });

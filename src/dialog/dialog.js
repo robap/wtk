@@ -61,6 +61,16 @@ wtk.Dialog.prototype.width_ = 0;
 wtk.Dialog.prototype.height_ = 0;
 
 /**
+ * @type {number}
+ */
+wtk.Dialog.prototype.leftPosition_ = 0;
+
+/**
+ * @type {number}
+ */
+wtk.Dialog.prototype.topPosition_ = 0;
+
+/**
  * The Dialog widget is not designed to be decorated, only rendered
  */
 wtk.Dialog.prototype.canDecorate = function() {
@@ -84,6 +94,14 @@ wtk.Dialog.prototype.createDom = function() {
   this.setElementInternal(outer);
   
   goog.style.showElement(outer, false);
+};
+
+/**
+ * @inheritDoc
+ */
+wtk.Dialog.prototype.render = function(opt_el) {
+  goog.base(this, 'render', opt_el);
+  this.setCssPosition_();
 };
 
 /**
@@ -191,6 +209,30 @@ wtk.Dialog.prototype.setContentInternal_ = function() {
     var content_el = this.getElementByFragment(wtk.Dialog.IdFragment.CONTENT);
     content_el.innerHTML = this.content_;
   }
+};
+
+/**
+ * Sets the positon of the dialog. If already rendered, updates dom
+ * 
+ * @param {number} left
+ * @param {number} top
+ */
+wtk.Dialog.prototype.setPosition = function(left, top) {
+  this.leftPosition_ = left;
+  this.topPosition_ = top;
+  
+  if(this.isInDocument()) {
+    this.setCssPosition_();
+  }
+};
+
+/**
+ * Sets the element's css postion to current. Should only ever be called after
+ * render
+ * @private
+ */
+wtk.Dialog.prototype.setCssPosition_ = function() {
+    goog.style.setPosition(this.getElement(), this.leftPosition_, this.topPosition_);
 };
 
 /**
