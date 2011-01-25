@@ -14,8 +14,8 @@
 
 goog.provide('wtk.Dialog');
 
+goog.require('wtk.templates.dialog');
 goog.require('wtk.State');
-goog.require('wtk.templates');
 goog.require('goog.ui.Component');
 goog.require('goog.style');
 goog.require('goog.fx.Dragger');
@@ -81,16 +81,9 @@ wtk.Dialog.prototype.canDecorate = function() {
  * @inheritDoc
  */
 wtk.Dialog.prototype.createDom = function() {
-  var data = {
-    'widget_id': this.makeId(wtk.Dialog.IdFragment.DIALOG),
-    'header_id': this.makeId(wtk.Dialog.IdFragment.HEADER),
-    'close_id' : this.makeId(wtk.Dialog.IdFragment.CLOSE),
-    'content_id' : this.makeId(wtk.Dialog.IdFragment.CONTENT),
-    'title_id' : this.makeId(wtk.Dialog.IdFragment.TITLE),
-    'width'    : this.getWidth(),
-    'height'   : this.getHeight()
-  };
-  var outer = goog.dom.htmlToDocumentFragment(wtk.templates.dialog(data));
+  var outer = goog.dom.htmlToDocumentFragment(
+    wtk.templates.dialog.getMainTemplate(this)
+  );
   this.setElementInternal(outer);
   
   goog.style.showElement(outer, false);

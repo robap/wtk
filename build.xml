@@ -5,42 +5,21 @@
   <property name="src_dir" location="${base_dir}/src" />
   <property name="closure_lib_dir" location="${base_dir}/lib/closure-library/closure" />
   <property name="jar_dir" location="${base_dir}/jar" />
-  <property name="soy_lib_dir" location="${base_dir}/lib/soy" />
   <property name="build_dir" location="${base_dir}/build" />
   
-  <macrodef name="generate-template">
-    <attribute name="inputfile" />
-    <attribute name="outputPathFormat" />
-    <sequential>
-      <java jar="${jar_dir}/SoyToJsSrcCompiler.jar" fork="true" failonerror="true" logError="true">
-        <arg line='--outputPathFormat "@{outputPathFormat}"' />
-        <arg line='--shouldGenerateJsdoc' />
-        <arg line='--shouldProvideRequireSoyNamespaces' />
-        <arg line='"@{inputfile}"' />
-      </java>
-    </sequential>
-  </macrodef>
-  
-  <target name="build-templates" description="build templates">
-    <generate-template inputfile="${src_dir}/dialog/dialog.soy" 
-                       outputPathFormat="${src_dir}/dialog//dialog.soy.js" />
-  </target>
-  
-  <target name="build-deps" depends="build-templates" description="calculate and build dependancies">
+  <target name="build-deps" description="calculate and build dependancies">
     <exec executable="python" failonerror="true" logError="true" output="${build_dir}/deps.js">
       <arg value="${closure_lib_dir}/bin/calcdeps.py" />
       <arg line='-p "${closure_lib_dir}"' />
-      <arg line='-p "${soy_lib_dir}"' />
       <arg line='-p "${src_dir}"' />
       <arg line="-o deps" />
     </exec>
   </target>
   
-  <target name="compile-all" depends="build-templates" description="Compile all widgets to check for warnings or errors">
+  <target name="compile-all" description="Compile all widgets to check for warnings or errors">
     <exec executable="python" failonerror="true" logError="true" output="${build_dir}/wtk-compiled.js">
       <arg value="${closure_lib_dir}/bin/calcdeps.py" />
       <arg line='-p "${closure_lib_dir}"' />
-      <arg line='-p "${soy_lib_dir}"' />
       <arg line='-p "${src_dir}"' />
       <arg line='-i "${src_dir}/wtk_all.js"' />
       <arg line='-f "--compilation_level=ADVANCED_OPTIMIZATIONS"' />
