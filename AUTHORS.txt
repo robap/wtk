@@ -1,0 +1,7 @@
+wtk Authors
+
+This software consists of voluntary contributions made the following
+individuals. For exact contribution history, see the revision history
+and logs, available at http://github.com/robap/wtk
+
+Rob Apodaca <rob.apodaca@gmail.com>
