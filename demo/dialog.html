@@ -27,10 +27,10 @@
     
     <script>
       goog.require('goog.dom');
-      goog.require('goog.ui.Button');
       goog.require('goog.fx.easing');
 
       goog.require('wtk.Dialog');
+      goog.require('wtk.Button');
       goog.require('wtk.effects.FadeIn');
       goog.require('wtk.effects.FadeOut');
       goog.require('wtk.effects.BlindIn');
@@ -65,10 +65,10 @@
       diag.setCloseEffect(fx2)
       diag.render();
 
-      var open_button = new goog.ui.Button();
+      var open_button = new wtk.Button();
       open_button.decorate(goog.dom.getElement('show_dialog'));
       
-      var close_button = new goog.ui.Button();
+      var close_button = new wtk.Button();
       close_button.decorate(goog.dom.getElement('close_dialog'));
       close_button.setEnabled(false);
 
