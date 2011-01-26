@@ -41,12 +41,7 @@
   <body>
     <div>
       <div id="switcher"></div>
-      <button id="show_dialog" class="ui-button ui-widget ui-state-default ui-corner-all ui-button-text-only">
-        <span class="ui-button-text">Show Dialog</span>
-      </button>
-      <button id="close_dialog" class="ui-button ui-widget ui-state-default ui-corner-all ui-button-text-only">
-        <span class="ui-button-text">Close Dialog</span>
-      </button>
+      <div id="buttons"></div>
     </div>
     
     <script>
@@ -65,11 +60,11 @@
       diag.setCloseEffect(fx2)
       diag.render();
 
-      var open_button = new wtk.Button();
-      open_button.decorate(goog.dom.getElement('show_dialog'));
+      var open_button = new wtk.Button('Open Dialog');
+      open_button.render(goog.dom.getElement('buttons'));
       
-      var close_button = new wtk.Button();
-      close_button.decorate(goog.dom.getElement('close_dialog'));
+      var close_button = new wtk.Button('Close Dialog');
+      close_button.render(goog.dom.getElement('buttons'));
       close_button.setEnabled(false);
 
       goog.events.listen(open_button, goog.ui.Component.EventType.ACTION, function(){
