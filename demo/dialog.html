@@ -68,15 +68,21 @@
       close_button.setEnabled(false);
 
       goog.events.listen(open_button, goog.ui.Component.EventType.ACTION, function(){
-        open_button.setEnabled(false);
-        close_button.setEnabled(true);
         diag.open();
       });
       
       goog.events.listen(close_button, goog.ui.Component.EventType.ACTION, function(){
-        close_button.setEnabled(false);
-        open_button.setEnabled(true);
         diag.close();
+      });
+      
+      goog.events.listen(diag, wtk.State.OPENED, function(){
+        open_button.setEnabled(false);
+        close_button.setEnabled(true);
+      });
+      
+      goog.events.listen(diag, wtk.State.CLOSED, function(){
+        open_button.setEnabled(true);
+        close_button.setEnabled(false);
       });
     </script>
   </body>

@@ -68,6 +68,15 @@ describe('Dialog', function(){
         dialog.open();
         expect(goog.style.isElementShown(dialog.getElement())).toEqual(true);
       });
+      it('Dispatches wtk.State.OPENED', function() {
+        var event_detected = false;
+        goog.events.listen(dialog, wtk.State.OPENED, function(){
+          event_detected = true;
+        });
+        dialog.render();
+        dialog.open();
+        expect(event_detected).toEqual(true);
+      });
     });
   });
   describe('#close', function() {
@@ -83,6 +92,16 @@ describe('Dialog', function(){
         dialog.open();
         dialog.close();
         expect(goog.style.isElementShown(dialog.getElement())).toEqual(false);
+      });
+      it('Dispatches wtk.State.CLOSED', function() {
+        var event_detected = false;
+        goog.events.listen(dialog, wtk.State.CLOSED, function(){
+          event_detected = true;
+        });
+        dialog.render();
+        dialog.open();
+        dialog.close();
+        expect(event_detected).toEqual(true);
       });
     });
   });

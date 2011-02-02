@@ -274,6 +274,7 @@ wtk.Dialog.prototype.handleCloseAnimationFinish_ = function(event) {
  */
 wtk.Dialog.prototype.setState_ = function(state) {
   this.state_ = state;
+  this.dispatchEvent(this.state_);
 };
 
 /**
