@@ -7,9 +7,17 @@ body {
   font-size: 80%;
 }
 
+label {
+  margin: 1em;
+}
+
 #switcher {
   position: absolute;
   top: 2px;
   right: 2px;
+}
+
+#buttons {
+  margin: 1em;
 }
 

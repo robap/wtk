@@ -30,9 +30,10 @@ wtk.templates.dialog.getMainTemplate = function(dialog) {
   
   var width = goog.string.htmlEscape(dialog.getWidth());
   var height = goog.string.htmlEscape(dialog.getHeight());
+  var z = goog.string.htmlEscape(dialog.getZIndex());
   
   var t;
-  t = '<div id="'+widget_id+'" class="ui-dialog ui-widget ui-widget-content ui-corner-all ui-draggable" style="position: absolute; width: '+width+'px; height: '+height+'px;">'
+  t = '<div id="'+widget_id+'" class="ui-dialog ui-widget ui-widget-content ui-corner-all ui-draggable" style="position: absolute; width: '+width+'px; height: '+height+'px; z-index: '+z+'">'
     +   '<div id="'+header_id+'" class="ui-dialog-titlebar ui-widget-header ui-corner-all ui-helper-clearfix">'
     +     '<span class="ui-dialog-title" id="'+title_id+'"></span>'
     +     '<a href="#" id="'+close_id+'" class="ui-dialog-titlebar-close ui-corner-all" role="button">'

@@ -28,6 +28,8 @@
     <script>
       goog.require('goog.dom');
       goog.require('goog.fx.easing');
+      goog.require('goog.ui.Checkbox');
+      goog.require('goog.dom.forms');
 
       goog.require('wtk.Dialog');
       goog.require('wtk.Button');
@@ -42,6 +44,10 @@
     <div>
       <div id="switcher"></div>
       <div id="buttons"></div>
+      <div>
+        <label for="modal_enable">Enable Modal Overlay</label>
+        <input type="checkbox" id="modal_enable" />
+      </div>
     </div>
     
     <script>
@@ -83,6 +89,15 @@
       goog.events.listen(diag, wtk.State.CLOSED, function(){
         open_button.setEnabled(true);
         close_button.setEnabled(false);
+      });
+      
+      var modal_change = goog.dom.getElement('modal_enable');
+      goog.events.listen(modal_change, goog.events.EventType.CHANGE, function() {
+        if(goog.dom.forms.getValue(modal_change) == 'on') {
+          diag.enableModal(true);
+        } else {
+          diag.enableModal(false);
+        }
       });
     </script>
   </body>

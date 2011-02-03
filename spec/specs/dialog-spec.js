@@ -31,6 +31,9 @@ describe('Dialog', function(){
     it('has a height of 200', function() {
       expect(dialog.getHeight()).toEqual(200);
     });
+    it('has a zIndex of 1000', function() {
+      expect(dialog.getZIndex()).toEqual(1000);
+    });
   });
   describe('#constructor', function() {
     var width, height;
@@ -48,6 +51,11 @@ describe('Dialog', function(){
     it('Is added to the dom when rendered', function(){
       dialog.render();
       expect(dialog.isInDocument()).toEqual(true);
+    });
+    it('Is rendered with correct zIndex', function() {
+      dialog.render();
+      var z = goog.style.getStyle(dialog.getElement(), 'z-index');
+      expect(z).toEqual('1000');
     });
   });
   describe('#canDecorate', function() {
@@ -154,6 +162,22 @@ describe('Dialog', function(){
         
         expect(pos.x).toEqual(left);
         expect(pos.y).toEqual(top);
+      });
+    });
+    describe('#enableModal', function() {
+      it('adds overlay after open when true', function() {
+        dialog.enableModal(true);
+        dialog.render();
+        dialog.open();
+        var is_instance = (dialog.overlay_ instanceof wtk.Overlay);
+        expect(is_instance).toBeTruthy();
+      });
+      it('removes the ovelay after close when false', function() {
+        dialog.enableModal(true);
+        dialog.render();
+        dialog.open();
+        dialog.close();
+        expect(dialog.overlay_).toBeFalsy();
       });
     });
   });

@@ -16,6 +16,7 @@ goog.provide('wtk.Dialog');
 
 goog.require('wtk.templates.dialog');
 goog.require('wtk.State');
+goog.require('wtk.Overlay');
 goog.require('goog.ui.Component');
 goog.require('goog.style');
 goog.require('goog.fx.Dragger');
@@ -34,6 +35,11 @@ wtk.Dialog = function(opt_width, opt_height, opt_domHelper) {
   goog.base(this, opt_domHelper);
 };
 goog.inherits(wtk.Dialog, goog.ui.Component);
+
+/**
+ * @type {bool}
+ */
+wtk.Dialog.prototype.modalEnabled_ = false;
 
 /**
  * @type {bool}
@@ -69,6 +75,11 @@ wtk.Dialog.prototype.leftPosition_ = 0;
  * @type {number}
  */
 wtk.Dialog.prototype.topPosition_ = 0;
+
+/**
+ * @type {wtk.Overlay} or false if not set
+ */
+wtk.Dialog.prototype.overlay_ = false;
 
 /**
  * The Dialog widget is not designed to be decorated, only rendered
@@ -110,12 +121,57 @@ wtk.Dialog.prototype.enterDocument = function() {
 };
 
 /**
+ * When set to true, modal overlay will be used when opening dialog
+ * @param {bool} enable_modal
+ */
+wtk.Dialog.prototype.enableModal = function(enable_modal) {
+  this.modalEnabled_ = enable_modal;
+};
+
+/**
+ * If modal enabled, overlay is created and shown
+ * @private
+ */
+wtk.Dialog.prototype.showOverlay_ = function() {
+  if(this.modalEnabled_ !== true) {
+    return;
+  }
+  
+  //This code to workout overlay dimensions from goog.ui.Dialog
+  var doc = this.getDomHelper().getDocument();
+  var win = goog.dom.getWindow(doc) || window;
+  var viewSize = goog.dom.getViewportSize(win);
+  var width = Math.max(doc.body.scrollWidth, viewSize.width);
+  var height = Math.max(doc.body.scrollHeight, viewSize.height);
+  
+  var zi = this.zIndex_ - 1;
+  this.overlay_ = new wtk.Overlay(width, height, zi, this.getDomHelper());
+  this.overlay_.render();
+};
+
+/**
+ * Removes the overlay (if it was rendered during open);
+ * @private
+ */
+wtk.Dialog.prototype.removeOverlay_ = function() {
+  if(this.modalEnabled_ !== true) {
+    return;
+  }
+  
+  this.overlay_.dispose();
+  this.overlay_ = false;
+};
+
+/**
  * Opens the dialog, uses open effect if set
  */
 wtk.Dialog.prototype.open = function() {
   if(this.state_ === wtk.State.OPENED) {
     return;
   }
+  
+  this.showOverlay_();
+  
   goog.style.setSize(this.getElement(), this.width_, this.height_);
   if(this.openEffect_) {
     var anim = this.openEffect_.createAnimation(this);
@@ -136,6 +192,8 @@ wtk.Dialog.prototype.close = function() {
   if(this.state_ === wtk.State.CLOSED) {
     return;
   }
+  
+  this.removeOverlay_();
   
   if(this.closeEffect_) {
     var anim = this.closeEffect_.createAnimation(this);
@@ -162,6 +220,10 @@ wtk.Dialog.prototype.getWidth = function() {
 
 wtk.Dialog.prototype.getHeight = function() {
   return this.height_;
+};
+
+wtk.Dialog.prototype.getZIndex = function() {
+  return 1000;
 };
 
 /**
