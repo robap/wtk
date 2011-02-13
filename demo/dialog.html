@@ -58,12 +58,14 @@
       diag.setTitle('Demo Dialog');
       diag.setContent('<p>This is the inner content of the Dialog</p>');
       
-      var fx = new wtk.effects.FadeIn(200);
-      //var fx = new wtk.effects.BlindIn(200);
+      //var fx = new wtk.effects.FadeIn(200);
+      var fx = new wtk.effects.BlindIn(200);
       diag.setOpenEffect(fx);
-      //var fx2 = new wtk.effects.BlindOut(200);
-      var fx2 = new wtk.effects.FadeOut(200);
-      diag.setCloseEffect(fx2)
+      var fx2 = new wtk.effects.BlindOut(200);
+      //var fx2 = new wtk.effects.FadeOut(200);
+      diag.setCloseEffect(fx2);
+      diag.addButton(new wtk.Button('OK'));
+      diag.addButton(new wtk.Button('Cancel'));
       diag.render();
 
       var open_button = new wtk.Button('Open Dialog');
@@ -99,6 +101,10 @@
           diag.enableModal(false);
         }
       });
+      
+      goog.events.listen(diag, goog.ui.Component.EventType.ACTION, function(e) {
+        diag.close();
+      })
     </script>
   </body>
 </html>

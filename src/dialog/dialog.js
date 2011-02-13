@@ -37,16 +37,19 @@ wtk.Dialog = function(opt_width, opt_height, opt_domHelper) {
 goog.inherits(wtk.Dialog, goog.ui.Component);
 
 /**
+ * @private
  * @type {bool}
  */
 wtk.Dialog.prototype.modalEnabled_ = false;
 
 /**
+ * @private
  * @type {bool}
  */
 wtk.Dialog.prototype.state_ = wtk.State.CLOSED;
 
 /**
+ * @private
  * @type {string}
  */
 wtk.Dialog.prototype.content_ = '';
@@ -57,29 +60,40 @@ wtk.Dialog.prototype.content_ = '';
 wtk.Dialog.prototype.title_ = '';
 
 /**
+ * @private
  * @type {number}
  */
 wtk.Dialog.prototype.width_ = 0;
 
 /**
+ * @private
  * @type {number}
  */
 wtk.Dialog.prototype.height_ = 0;
 
 /**
+ * @private
  * @type {number}
  */
 wtk.Dialog.prototype.leftPosition_ = 0;
 
 /**
+ * @private
  * @type {number}
  */
 wtk.Dialog.prototype.topPosition_ = 0;
 
 /**
+ * @private
  * @type {wtk.Overlay} or false if not set
  */
 wtk.Dialog.prototype.overlay_ = false;
+
+/**
+ * @private
+ * @type {goog.ui.Component}
+ */
+wtk.Dialog.prototype.buttonSet_ = false;
 
 /**
  * The Dialog widget is not designed to be decorated, only rendered
@@ -116,6 +130,16 @@ wtk.Dialog.prototype.enterDocument = function() {
   
   this.setTitleInternal_();
   this.setContentInternal_();
+  
+  
+  if(this.buttonSet_) {
+    var button_set = this.getElementByFragment(wtk.Dialog.IdFragment.BUTTONSET);
+    this.buttonSet_.decorate(button_set);
+    
+    this.buttonSet_.forEachChild(function(button) {
+      button.render(this.buttonSet_.getElement());
+    }, this);
+  }
   
   this.attachListeners_();
 };
@@ -290,6 +314,33 @@ wtk.Dialog.prototype.setCssPosition_ = function() {
     goog.style.setPosition(this.getElement(), this.leftPosition_, this.topPosition_);
 };
 
+
+/**
+ * @param {wtk.Button} button
+ */
+wtk.Dialog.prototype.addButton = function(button) {
+  if( !this.buttonSet_ ) {
+    this.buttonSet_ = new goog.ui.Component();
+    this.buttonSet_.setParentEventTarget(this);
+  }
+  
+  this.buttonSet_.addChild(button);
+};
+
+/**
+ * @return {goog.ui.Component} or false if not set
+ */
+wtk.Dialog.prototype.getButtonSet = function() {
+  return this.buttonSet_;
+};
+
+/**
+ * @return {boolean}
+ */
+wtk.Dialog.prototype.hasButtons = function() {
+  return ( ! this.buttonSet_ ) ? false : true;
+};
+
 /**
  * @private
  */
@@ -308,6 +359,51 @@ wtk.Dialog.prototype.attachListeners_ = function() {
   
   var close = this.getElementByFragment(wtk.Dialog.IdFragment.CLOSE);
   this.getHandler().listen(close, goog.events.EventType.CLICK, this.handleCloseClick_);
+  
+  this.getHandler().listen(this, wtk.State.OPENED, this.handleOpenEvent_, false, this);
+};
+
+/**
+ * @private
+ */
+wtk.Dialog.prototype.handleOpenEvent_ = function(e) {
+  var dialog = e.target;
+  var title, title_size,title_padding_size;
+  var content, content_padding_size;
+  var height;
+  
+  title = dialog.getElementByFragment(wtk.Dialog.IdFragment.TITLE);
+  title_size = goog.style.getSize(title);
+  title_padding_size = goog.style.getPaddingBox(title);
+  content = dialog.getElementByFragment(wtk.Dialog.IdFragment.CONTENT);
+  content_padding_size = goog.style.getPaddingBox(content);
+  
+  height = dialog.getHeight() - dialog.getButtonSetHeight() -
+           title_size.height - title_padding_size.top -
+           title_padding_size.bottom - content_padding_size.top -
+           content_padding_size.bottom;
+  
+  goog.style.setStyle(content, 'min-height', height + 'px');
+};
+
+/**
+ * @return {number} the height value
+ */
+wtk.Dialog.prototype.getButtonSetHeight = function() {
+  if(! this.hasButtons()) {
+    return 0;
+  }
+  
+  var button_set, button_set_size, button_set_padding_size, button_set_margin_size;
+  button_set = this.getElementByFragment(wtk.Dialog.IdFragment.BUTTONPANE);
+  
+  button_set_size = goog.style.getSize(button_set);
+  button_set_padding_size = goog.style.getPaddingBox(button_set);
+  button_set_margin_size = goog.style.getMarginBox(button_set);
+  
+  return button_set_size.height + button_set_padding_size.top +
+         button_set_padding_size.bottom + button_set_margin_size.top +
+         button_set_margin_size.bottom;
 };
 
 /**
@@ -343,9 +439,11 @@ wtk.Dialog.prototype.setState_ = function(state) {
  * @enum {string}
  */
 wtk.Dialog.IdFragment = {
-  DIALOG  : 'dialog',
-  HEADER  : 'head',
-  TITLE   : 'title',
-  CLOSE   : 'close',
-  CONTENT : 'cont'
+  DIALOG      : 'dialog',
+  HEADER      : 'head',
+  TITLE       : 'title',
+  CLOSE       : 'close',
+  CONTENT     : 'cont',
+  BUTTONSET   : 'bs',
+  BUTTONPANE  : 'bp'
 };

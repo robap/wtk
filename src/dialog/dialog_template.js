@@ -40,10 +40,34 @@ wtk.templates.dialog.getMainTemplate = function(dialog) {
     +       '<span class="ui-icon ui-icon-closethick">close</span>'
     +     '</a>'
     +   '</div>'
-    +   '<div id="'+content_id+'" class="ui-dialog-content ui-widget-content" style="width: auto; min-height: 58.4px; height: auto;">'
+    +   '<div id="'+content_id+'" class="ui-dialog-content ui-widget-content" style="width: auto; height: auto;">'
+    +   '</div>'
+    ;
+    
+    if(dialog.hasButtons()) {
+      t += wtk.templates.dialog.getButtonSetTemplate(dialog);
+    }
+    
+    t += '</div>'
+    ;
+  
+  return t;
+};
+
+/**
+ * @param {wtk.Dialog} dialog
+ * @return {string}
+ */
+wtk.templates.dialog.getButtonSetTemplate = function(dialog) {
+  var buttonset_id = goog.string.htmlEscape(dialog.makeId(wtk.Dialog.IdFragment.BUTTONSET));
+  var buttonpane_id = goog.string.htmlEscape(dialog.makeId(wtk.Dialog.IdFragment.BUTTONPANE));
+  
+  var t;
+  t = '<div id="' + buttonpane_id + '" class="ui-dialog-buttonpane ui-widget-content ui-helper-clearfix">'
+    +   '<div id="' + buttonset_id + '" class="ui-dialog-buttonset">'
     +   '</div>'
     + '</div>'
     ;
-  
+    
   return t;
 };

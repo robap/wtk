@@ -13,6 +13,7 @@
 // limitations under the License.
 
 goog.require('wtk.Dialog');
+goog.require('wtk.Button');
 goog.require('goog.style');
 
 describe('Dialog', function(){
@@ -89,7 +90,7 @@ describe('Dialog', function(){
   });
   describe('#close', function() {
     describe('before #close is called', function(){
-      it('Is is showing', function(){
+      it('Is showing', function(){
         dialog.render();
         expect(goog.style.isElementShown(dialog.getElement())).toEqual(false);
       });
@@ -178,6 +179,38 @@ describe('Dialog', function(){
         dialog.open();
         dialog.close();
         expect(dialog.overlay_).toBeFalsy();
+      });
+    });
+    describe('#addButton', function() {
+      it('adds a button set to dialog with one child per button added', function() {
+        dialog.addButton(new wtk.Button('test'));
+        dialog.render();
+        var button_set = dialog.getElementByFragment(wtk.Dialog.IdFragment.BUTTONSET);
+        expect(button_set.childNodes.length).toBe(1);
+      });
+    });
+    describe('#getButtonSet', function() {
+      it('returns false when no buttons added', function() {
+        dialog.render();
+        expect(dialog.getButtonSet()).toBe(false);
+      });
+      it('returns instance of goog.ui.Component when buttons have been added', function() {
+        dialog.render();
+        dialog.addButton(new wtk.Button('test'));
+        expect(dialog.getButtonSet() instanceof goog.ui.Component).toBe(true);
+      });
+    });
+    describe('#hasButtons', function() {
+      describe('when no buttons have been added', function() {
+        it('returns false', function() {
+          expect(dialog.hasButtons()).toBeFalsy();
+        });
+      });
+      describe('when buttons have been added', function() {
+        it('returns true when buttons have been added', function() {
+          dialog.addButton(new wtk.Button('test'));
+          expect(dialog.hasButtons()).toBeTruthy();
+        });
       });
     });
   });
