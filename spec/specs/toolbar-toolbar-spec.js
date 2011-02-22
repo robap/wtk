@@ -30,7 +30,6 @@ describe('wtk.toolbar.Toolbar', function() {
       toolbar.render();
     });
     it('contains ui-state-default', function() {
-      console.log(goog.dom.classes.get(toolbar.getElement()))
       expect(goog.dom.classes.get(toolbar.getElement())).toContain('ui-state-default');
     });
   });
