@@ -145,6 +145,16 @@ wtk.Dialog.prototype.enterDocument = function() {
 };
 
 /**
+ * @inheritDoc
+ */
+wtk.Dialog.prototype.exitDocument = function() {
+  if(this.overlay_) {
+    this.overlay_.dispose();
+  }
+  goog.base(this, 'exitDocument');
+};
+
+/**
  * When set to true, modal overlay will be used when opening dialog
  * @param {bool} enable_modal
  */
