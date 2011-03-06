@@ -14,6 +14,7 @@
 
 
 goog.require('wtk.toolbar.Toolbar');
+goog.require('wtk.toolbar.Menu');
 
 goog.require('goog.dom.classes');
 
@@ -31,6 +32,23 @@ describe('wtk.toolbar.Toolbar', function() {
     });
     it('contains ui-state-default', function() {
       expect(goog.dom.classes.get(toolbar.getElement())).toContain('ui-state-default');
+    });
+  });
+  describe('Adding a menu', function() {
+    var menu, menuName;
+    beforeEach(function() {
+      toolbar.render();
+      menuName = 'foo';
+      menu = new wtk.toolbar.Menu(menuName);
+      toolbar.addMenu(menu);
+    });
+    describe('with name foo', function(){
+      it('creates a child component in the toolbar', function() {
+        expect(toolbar.getChildAt(0)).not.toBeNull();
+      });
+      it('creates the child component whose innerHTML is foo', function() {
+        expect(toolbar.getChildAt(0).getElement().innerHTML).toBe(menuName);
+      });
     });
   });
 });

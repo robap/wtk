@@ -23,7 +23,6 @@ goog.require('wtk.templates.toolbar');
 wtk.toolbar.Toolbar = function() {
   goog.base(this);
 };
-
 goog.inherits(wtk.toolbar.Toolbar, goog.ui.Component);
 
 /**
@@ -33,4 +32,13 @@ wtk.toolbar.Toolbar.prototype.createDom = function() {
   this.element_ = goog.dom.htmlToDocumentFragment(
     wtk.templates.toolbar.getToolbarTemplate(this)
   );
+};
+
+/**
+ * @param {wtk.toolbar.Menu} menu
+ */
+wtk.toolbar.Toolbar.prototype.addMenu = function(menu) {
+  var activator = new goog.ui.Component();
+  this.addChild(activator, true);
+  activator.getElement().innerHTML = menu.getName();
 };

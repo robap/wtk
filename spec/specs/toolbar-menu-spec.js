@@ -20,6 +20,7 @@ describe('wtk.toolbar.Menu', function() {
   beforeEach(function() {
     menuName = 'foo';
     toolbarMenu = new wtk.toolbar.Menu(menuName);
+    toolbarMenu.render();
   });
   afterEach(function() {
     toolbarMenu.dispose();
