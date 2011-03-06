@@ -15,7 +15,7 @@
 goog.provide('wtk.Overlay');
 
 goog.require('goog.ui.Component');
-goog.require('wtk.templates.overlay')
+goog.require('goog.style');
 
 /**
  * @constructor
@@ -35,29 +35,58 @@ wtk.Overlay = function(width, height, zIndex, opt_domHelper) {
 goog.inherits(wtk.Overlay, goog.ui.Component);
 
 /**
+ * @private
  * @type {number}
  */
 wtk.Overlay.prototype.width_ = 0;
 
 /**
+ * @private
  * @type {number}
  */
 wtk.Overlay.prototype.height_ = 0;
 
 /**
+ * @private
  * @type {number}
  */
 wtk.Overlay.prototype.zIndex_ = 0;
 
 /**
+ * @private
+ * @type {boolean}
+ */
+wtk.Overlay.prototype.visible_ = true;
+
+/**
  * @inheritDoc
  */
 wtk.Overlay.prototype.createDom = function() {
-  var ol = goog.dom.htmlToDocumentFragment(
-    wtk.templates.overlay.getModalOverlay(this)
-  );
+  var el = this.getDomHelper().createDom('div');
+  goog.style.setSize(el, this.width_, this.height_);
+  goog.style.setStyle(el, 'position', 'absolute');
+  goog.style.setStyle(el, 'top', '0');
+  goog.style.setStyle(el, 'left', '0');
   
-  this.setElementInternal(ol);
+  this.setElementInternal(el);
+  this.setZIndex_();
+};
+
+/**
+ * @inheritDoc
+ */
+wtk.Overlay.prototype.enterDocument = function() {
+  goog.base(this, 'enterDocument');
+  
+  this.setVisible_();
+};
+
+/**
+ * sets to visisble
+ */
+wtk.Overlay.prototype.setVisible = function(visible) {
+  this.visible_ = visible;
+  this.setVisible_();
 };
 
 /**
@@ -85,8 +114,27 @@ wtk.Overlay.prototype.getZIndex = function() {
 };
 
 /**
- * @enum {String}
+ * @param {number} zIndex
  */
-wtk.Overlay.IdFragment = {
-  'OVERLAY' : 'overlay'
-}
+wtk.Overlay.prototype.setZIndex = function(zIndex) {
+  this.zIndex_ = zIndex;
+  this.setZIndex_();
+};
+
+/**
+ * @private
+ */
+wtk.Overlay.prototype.setZIndex_ = function() {
+  var el = this.getElement();
+  if(el) {
+    goog.style.setStyle(el, 'zIndex', this.zIndex_);
+  }
+};
+
+wtk.Overlay.prototype.setVisible_ = function() {
+  var el = this.getElement();
+  
+  if(el) {
+    goog.style.showElement(this.getElement(), this.visible_);
+  }
+};

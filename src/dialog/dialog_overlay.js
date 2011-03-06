@@ -12,24 +12,25 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-goog.provide('wtk.templates.overlay');
+goog.provide('wtk.dialog.Overlay');
 
-goog.require('goog.string');
+goog.require('wtk.Overlay');
+goog.require('goog.dom.classes');
 
 /**
- * returns the modal overlay div string
- * @param {wtk.Overlay} overlay
+ * @constructor
+ * @extends {wtk.Overlay}
  */
-wtk.templates.overlay.getModalOverlay = function(overlay) {
-  var overlay_id = goog.string.htmlEscape(overlay.makeId(wtk.Overlay.IdFragment.OVERLAY));
+wtk.dialog.Overlay = function(width, height, zi, opt_domHelper) {
+  goog.base(this, width, height, zi, opt_domHelper);
+};
+goog.inherits(wtk.dialog.Overlay, wtk.Overlay);
+
+/**
+ * @inheritDoc
+ */
+wtk.dialog.Overlay.prototype.createDom = function() {
+  goog.base(this, 'createDom');
   
-  var w = goog.string.htmlEscape(overlay.getWidth());
-  var h = goog.string.htmlEscape(overlay.getHeight());
-  var z = goog.string.htmlEscape(overlay.getZIndex());
-  
-  t = '<div id="'+overlay_id+'" class="ui-widget-overlay" style="width: '+w+'px; height: '+h+'px; z-index: '+z+'">'
-    + '</div>'
-    ;
-    
-  return t;
+  goog.dom.classes.add(this.getElement(), 'ui-widget-overlay');
 };

@@ -17,12 +17,16 @@ goog.provide('wtk.toolbar.Toolbar');
 goog.require('goog.ui.Component');
 goog.require('wtk.templates.toolbar');
 goog.require('wtk.toolbar.MenuButton');
+goog.require('wtk.util.window');
+goog.require('wtk.Overlay');
 
 /**
  * @constructor
  */
-wtk.toolbar.Toolbar = function() {
+wtk.toolbar.Toolbar = function(opt_ZIndex) {
   goog.base(this);
+  
+  this.zIndex_ = opt_ZIndex || 900;
 };
 goog.inherits(wtk.toolbar.Toolbar, goog.ui.Component);
 
@@ -33,6 +37,26 @@ wtk.toolbar.Toolbar.prototype.createDom = function() {
   this.element_ = goog.dom.htmlToDocumentFragment(
     wtk.templates.toolbar.getToolbarTemplate(this)
   );
+  
+  var winSize = wtk.util.window.getWindowBox(this.getDomHelper());
+  this.overlay_ = new wtk.Overlay(winSize.right, winSize.bottom, this.zIndex_ - 1, this.getDomHelper());
+  this.overlay_.setVisible(false);
+};
+
+/**
+ * @override
+ */
+wtk.toolbar.Toolbar.prototype.enterDocument = function() {
+  goog.base(this, 'enterDocument');
+  
+  this.overlay_.render();
+};
+
+/**
+ * @override
+ */
+wtk.toolbar.Toolbar.prototype.exitDocument = function() {
+  this.overlay_.dispose();
 };
 
 /**
@@ -41,4 +65,11 @@ wtk.toolbar.Toolbar.prototype.createDom = function() {
 wtk.toolbar.Toolbar.prototype.addMenu = function(menu) {
   var menuButton = new wtk.toolbar.MenuButton(menu.getName(), this.getDomHelper());
   this.addChild(menuButton, true);
+};
+
+/**
+ * @return {number}
+ */
+wtk.toolbar.Toolbar.prototype.getZIndex = function() {
+  return this.zIndex_;
 };

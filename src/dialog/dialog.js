@@ -16,7 +16,7 @@ goog.provide('wtk.Dialog');
 
 goog.require('wtk.templates.dialog');
 goog.require('wtk.State');
-goog.require('wtk.Overlay');
+goog.require('wtk.dialog.Overlay');
 goog.require('goog.ui.Component');
 goog.require('goog.style');
 goog.require('goog.fx.Dragger');
@@ -179,7 +179,7 @@ wtk.Dialog.prototype.showOverlay_ = function() {
   var height = Math.max(doc.body.scrollHeight, viewSize.height);
   
   var zi = this.getZIndex() - 1;
-  this.overlay_ = new wtk.Overlay(width, height, zi, this.getDomHelper());
+  this.overlay_ = new wtk.dialog.Overlay(width, height, zi, this.getDomHelper());
   this.overlay_.render();
 };
 

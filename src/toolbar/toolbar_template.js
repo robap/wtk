@@ -22,7 +22,8 @@ goog.require('goog.string');
  * @return {string}
  */
 wtk.templates.toolbar.getToolbarTemplate = function(toolbar) {
-  var t = '<div class="ui-widget ui-state-default">'
+  var z = goog.string.htmlEscape(toolbar.getZIndex());
+  var t = '<div class="ui-widget ui-state-default" style="z-index: '+z+';">'
         + '</div>'
         ;
         
