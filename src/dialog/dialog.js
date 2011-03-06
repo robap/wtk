@@ -178,7 +178,7 @@ wtk.Dialog.prototype.showOverlay_ = function() {
   var width = Math.max(doc.body.scrollWidth, viewSize.width);
   var height = Math.max(doc.body.scrollHeight, viewSize.height);
   
-  var zi = this.zIndex_ - 1;
+  var zi = this.getZIndex() - 1;
   this.overlay_ = new wtk.Overlay(width, height, zi, this.getDomHelper());
   this.overlay_.render();
 };
