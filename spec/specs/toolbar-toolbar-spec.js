@@ -43,11 +43,9 @@ describe('wtk.toolbar.Toolbar', function() {
       toolbar.addMenu(menu);
     });
     describe('with name foo', function(){
-      it('creates a child component in the toolbar', function() {
-        expect(toolbar.getChildAt(0)).not.toBeNull();
-      });
-      it('creates the child component whose innerHTML is foo', function() {
-        expect(toolbar.getChildAt(0).getElement().innerHTML).toBe(menuName);
+      it('creates a MenuButton with name foo in the toolbar', function() {
+        var menuButton = toolbar.getChildAt(0);
+        expect(menuButton.getContent()).toBe(menuName);
       });
     });
   });

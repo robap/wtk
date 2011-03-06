@@ -27,6 +27,7 @@
     
     <script>
       goog.require('wtk.toolbar.Toolbar');
+      goog.require('wtk.toolbar.Menu');
       goog.require('wtk.ThemeSwitcher');
     </script>
   </head>
@@ -44,6 +45,12 @@
   
       var toolbar = new wtk.toolbar.Toolbar();
       toolbar.render(goog.dom.getElement('toolbar'));
+      
+      var fileMenu = new wtk.toolbar.Menu('File');
+      var editMenu = new wtk.toolbar.Menu('Edit');
+      
+      toolbar.addMenu(fileMenu);
+      toolbar.addMenu(editMenu);
     </script>
   </body>
 </html>

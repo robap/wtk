@@ -12,33 +12,21 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-goog.provide('wtk.toolbar.Toolbar');
 
-goog.require('goog.ui.Component');
-goog.require('wtk.templates.toolbar');
 goog.require('wtk.toolbar.MenuButton');
 
-/**
- * @constructor
- */
-wtk.toolbar.Toolbar = function() {
-  goog.base(this);
-};
-goog.inherits(wtk.toolbar.Toolbar, goog.ui.Component);
-
-/**
- * @override
- */
-wtk.toolbar.Toolbar.prototype.createDom = function() {
-  this.element_ = goog.dom.htmlToDocumentFragment(
-    wtk.templates.toolbar.getToolbarTemplate(this)
-  );
-};
-
-/**
- * @param {wtk.toolbar.Menu} menu
- */
-wtk.toolbar.Toolbar.prototype.addMenu = function(menu) {
-  var menuButton = new wtk.toolbar.MenuButton(menu.getName(), this.getDomHelper());
-  this.addChild(menuButton, true);
-};
+describe('wtk.toolbar.MenuButton', function() {
+  var toolbarMenuButton;
+  beforeEach(function() {
+    toolbarMenuButton = new wtk.toolbar.MenuButton();
+    toolbarMenuButton.render();
+  });
+  afterEach(function() {
+    toolbarMenuButton.dispose();
+  });
+  describe('default state', function() {
+    it('uses the toolbar menu button renderer', function() {
+      expect(toolbarMenuButton.getRenderer() instanceof wtk.toolbar.ButtonRenderer).toBe(true);
+    });
+  });
+});

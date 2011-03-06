@@ -22,7 +22,24 @@ goog.require('goog.string');
  * @return {string}
  */
 wtk.templates.toolbar.getToolbarTemplate = function(toolbar) {
-  var t = '<div class="ui-state-default">asdf'
+  var t = '<div class="ui-widget ui-state-default">'
+        + '</div>'
+        ;
+        
+  return t;
+};
+
+/**
+ * returns the main Toolbar template string merged with Toolbar object
+ * @param {wtk.toolbar.MenuButton} button
+ * @return {string}
+ */
+wtk.templates.toolbar.getMenuButtonTemplate = function(button) {
+  
+  var name = goog.string.htmlEscape(button.getContent());
+  
+  var t = '<div style="display: inline-block; cursor: default; border: none; padding-left: 0.1em; padding-right: 0.1em;">'
+        +   '<div style="padding: 0.2em;">' + name + '</div>'
         + '</div>'
         ;
         
