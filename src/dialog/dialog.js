@@ -145,6 +145,16 @@ wtk.Dialog.prototype.enterDocument = function() {
 };
 
 /**
+ * @inheritDoc
+ */
+wtk.Dialog.prototype.exitDocument = function() {
+  if(this.overlay_) {
+    this.overlay_.dispose();
+  }
+  goog.base(this, 'exitDocument');
+};
+
+/**
  * When set to true, modal overlay will be used when opening dialog
  * @param {bool} enable_modal
  */
@@ -168,7 +178,7 @@ wtk.Dialog.prototype.showOverlay_ = function() {
   var width = Math.max(doc.body.scrollWidth, viewSize.width);
   var height = Math.max(doc.body.scrollHeight, viewSize.height);
   
-  var zi = this.zIndex_ - 1;
+  var zi = this.getZIndex() - 1;
   this.overlay_ = new wtk.Overlay(width, height, zi, this.getDomHelper());
   this.overlay_.render();
 };
