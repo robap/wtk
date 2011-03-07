@@ -90,6 +90,13 @@ wtk.Overlay.prototype.setVisible = function(visible) {
 };
 
 /**
+ * @return {boolean}
+ */
+wtk.Overlay.prototype.isVisible = function() {
+  return this.visible_;
+};
+
+/**
  * Gets the width
  * @return {number}
  */

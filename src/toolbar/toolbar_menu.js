@@ -35,8 +35,41 @@ goog.inherits(wtk.toolbar.Menu, goog.ui.Component);
 wtk.toolbar.Menu.prototype.name_ = '';
 
 /**
+ * @private
+ * @type {boolean}
+ */
+wtk.toolbar.Menu.prototype.visible_ = false;
+
+/**
+ * @override
+ */
+wtk.toolbar.Menu.prototype.enterDocument = function() {
+  goog.base(this, 'enterDocument');
+  
+  this.setVisible_();
+};
+
+/**
  * @return {string}
  */
 wtk.toolbar.Menu.prototype.getName = function() {
   return this.name_;
+};
+
+/**
+ * @return {string}
+ */
+wtk.toolbar.Menu.prototype.setVisible = function(visible) {
+  this.visible_ = visible;
+};
+
+/**
+ * @private
+ */
+wtk.toolbar.Menu.prototype.setVisible_ = function() {
+  var el = this.getElement();
+  
+  if(el) {
+    goog.style.showElement(this.getElement(), this.visible_);
+  }
 };

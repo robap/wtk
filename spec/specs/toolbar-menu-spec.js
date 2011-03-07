@@ -29,5 +29,8 @@ describe('wtk.toolbar.Menu', function() {
     it('sets the menu name when passed to constructor', function() {
       expect(toolbarMenu.getName()).toBe(menuName);
     });
+    it('is not visible', function() {
+      expect(goog.style.isElementShown(toolbarMenu.getElement())).toEqual(false);
+    });
   });
 });
