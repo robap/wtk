@@ -82,6 +82,7 @@ wtk.toolbar.Toolbar.prototype.exitDocument = function() {
  * @param {wtk.toolbar.Menu} menu
  */
 wtk.toolbar.Toolbar.prototype.addMenu = function(menu) {
+  menu.setZIndex(this.getZIndex());
   this.menuContainer_.addChild(menu, true);
   
   var menuButton = new wtk.toolbar.MenuButton(menu.getName(), this.getDomHelper());
@@ -120,24 +121,56 @@ wtk.toolbar.Toolbar.prototype.initializeOverlay_ = function() {
  */
 wtk.toolbar.Toolbar.prototype.connectListeners_ = function() {
   goog.events.listen(this, goog.ui.Component.EventType.ACTION, this.handleAction_, false, this);
-  goog.events.listen(this.overlay_.getElement(), goog.events.EventType.CLICK, this.toggleOverlay_, false, this);
+  goog.events.listen(this.overlay_.getElement(), goog.events.EventType.CLICK, this.hideOverlayAndMenus_, false, this);
 };
 
 /**
  * @private
  */
 wtk.toolbar.Toolbar.prototype.handleAction_ = function(event) {
-  var menu = this.buttonsAndMenus_.get(goog.getUid(event.target));
+  var button = event.target;
+  var menu = this.buttonsAndMenus_.get(goog.getUid(button));
   if(!menu) return;
   
-  this.toggleOverlay_();
-  menu.setVisible(true);
+  this.toggleMenu_(menu, button);
+  this.hideMenus_(menu);
 };
 
 /**
  * @private
  */
-wtk.toolbar.Toolbar.prototype.toggleOverlay_ = function() {
-  var visible = (this.overlay_.isVisible()) ? false : true;
+wtk.toolbar.Toolbar.prototype.toggleMenu_ = function(menu, button) {
+  var visible = (menu.isVisible()) ? false : true;
+  
+  if(visible) {
+    var offset = goog.style.getPageOffset(button.getElement());
+    var bounds = goog.style.getBounds(button.getElement());
+    offset.y = offset.y + bounds.height;
+    menu.setPosition(offset);
+  }
+  
+  menu.setVisible(visible);
   this.overlay_.setVisible(visible);
+};
+
+/**
+ * @private
+ */
+wtk.toolbar.Toolbar.prototype.hideOverlayAndMenus_ = function() {
+  this.overlay_.setVisible(false);
+  this.hideMenus_();
+};
+
+/**
+ * @private
+ * @param {wtk.toolbar.Menu=} opt_ignoreMenu
+ */
+wtk.toolbar.Toolbar.prototype.hideMenus_ = function(opt_ignoreMenu) {
+  var ignoreId = (opt_ignoreMenu) ? goog.getUid(opt_ignoreMenu) : '';
+  var iter = this.buttonsAndMenus_.getValueIterator();
+  goog.iter.forEach(iter, function(menu){
+    if(goog.getUid(menu) !== ignoreId) {
+      menu.setVisible(false);
+    }
+  });
 };

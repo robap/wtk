@@ -15,6 +15,8 @@
 
 goog.require('wtk.toolbar.Menu');
 
+goog.require('wtk.toolbar.MenuItem');
+
 describe('wtk.toolbar.Menu', function() {
   var toolbarMenu, menuName;
   beforeEach(function() {
@@ -31,6 +33,19 @@ describe('wtk.toolbar.Menu', function() {
     });
     it('is not visible', function() {
       expect(goog.style.isElementShown(toolbarMenu.getElement())).toEqual(false);
+    });
+  });
+  describe('#addItem', function() {
+    it('adds the item', function() {
+      var item = new wtk.toolbar.MenuItem('foo');
+      toolbarMenu.addItem(item);
+      expect(toolbarMenu.getChildAt(0)).toBe(item);
+    });
+  });
+  describe('#setVisible', function() {
+    it('makes the element visible', function() {
+      toolbarMenu.setVisible(true);
+      expect(goog.style.isElementShown(toolbarMenu.getElement())).toEqual(true);
     });
   });
 });

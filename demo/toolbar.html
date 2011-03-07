@@ -28,6 +28,7 @@
     <script>
       goog.require('wtk.toolbar.Toolbar');
       goog.require('wtk.toolbar.Menu');
+      goog.require('wtk.toolbar.MenuItem');
       goog.require('wtk.ThemeSwitcher');
     </script>
   </head>
@@ -48,6 +49,20 @@
       
       var fileMenu = new wtk.toolbar.Menu('File');
       var editMenu = new wtk.toolbar.Menu('Edit');
+      
+      var New = new wtk.toolbar.MenuItem('New');
+      var Open = new wtk.toolbar.MenuItem('Open');
+      var Save = new wtk.toolbar.MenuItem('Save');
+      var Exit = new wtk.toolbar.MenuItem('Exit');
+      fileMenu.addItem(New);
+      fileMenu.addItem(Open);
+      fileMenu.addItem(Save);
+      fileMenu.addItem(Exit);
+      
+      var Cut = new wtk.toolbar.MenuItem('Cut');
+      var Copy = new wtk.toolbar.MenuItem('Copy');
+      editMenu.addItem(Cut);
+      editMenu.addItem(Copy);
       
       toolbar.addMenu(fileMenu);
       toolbar.addMenu(editMenu);
