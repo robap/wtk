@@ -26,14 +26,6 @@ describe('wtk.toolbar.Toolbar', function() {
   });
   afterEach(function() {
     toolbar.dispose();
-  })
-  describe('CSS classes', function() {
-    beforeEach(function() {
-      toolbar.render();
-    });
-    it('contains ui-state-default', function() {
-      expect(goog.dom.classes.get(toolbar.getElement())).toContain('ui-state-default');
-    });
   });
   describe('Adding a menu', function() {
     var menu, menuName;
