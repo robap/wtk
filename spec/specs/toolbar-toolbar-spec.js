@@ -121,4 +121,48 @@ describe('wtk.toolbar.Toolbar', function() {
       });
     });
   });
+  describe('menuButton enter (hover)', function() {
+    var menu1, menu2, button1, button2;
+    beforeEach(function() {
+      toolbar.render();
+      menu1 = new wtk.toolbar.Menu('menu1');
+      menu2 = new wtk.toolbar.Menu('menu2');
+      toolbar.addMenu(menu1);
+      toolbar.addMenu(menu2);
+      button1 = toolbar.getChildAt(0);
+      button2 = toolbar.getChildAt(1);
+    });
+    describe('when menu1 is visible', function() {
+      beforeEach(function() {
+        button1.dispatchEvent(goog.ui.Component.EventType.ACTION);
+      });
+      describe('and button1 is not hovered over', function() {
+        beforeEach(function() {
+          button1.dispatchEvent(goog.ui.Component.EventType.LEAVE);
+        });
+        describe('and a button2 is hovered over', function() {
+          beforeEach(function() {
+            button2.dispatchEvent(goog.ui.Component.EventType.ENTER);
+          });
+          it('closes the menu1', function() {
+            expect(menu1.isVisible()).toBe(false);
+          });
+          it('opens menu2', function() {
+            expect(menu2.isVisible()).toBe(true);
+          });
+        });
+      });
+    });
+    describe('when no menus are visible', function() {
+      beforeEach(function() {
+        toolbar.hideMenus_();
+      });
+      describe('hovering over a button', function() {
+        it('does not display the menu', function() {
+          button1.dispatchEvent(goog.ui.Component.EventType.ENTER);
+          expect(menu1.isVisible()).toBe(false);
+        });
+      });
+    });
+  });
 });

@@ -20,6 +20,7 @@ goog.require('wtk.templates.toolbar');
 goog.require('wtk.toolbar.MenuButton');
 goog.require('wtk.util.window');
 goog.require('wtk.Overlay');
+goog.require('wtk.State');
 
 /**
  * @constructor
@@ -27,6 +28,7 @@ goog.require('wtk.Overlay');
 wtk.toolbar.Toolbar = function(opt_ZIndex) {
   goog.base(this);
   
+  this.openState_ = wtk.State.CLOSED;
   this.buttonsAndMenus_ = new goog.structs.Map();
   this.zIndex_ = opt_ZIndex || 900;
   this.initializeMenuContainer_();
@@ -121,6 +123,7 @@ wtk.toolbar.Toolbar.prototype.initializeOverlay_ = function() {
  */
 wtk.toolbar.Toolbar.prototype.connectListeners_ = function() {
   goog.events.listen(this, goog.ui.Component.EventType.ACTION, this.handleAction_, false, this);
+  goog.events.listen(this, goog.ui.Component.EventType.ENTER, this.handleEnterEvent_, false, this);
   goog.events.listen(this.overlay_.getElement(), goog.events.EventType.CLICK, this.hideOverlayAndMenus_, false, this);
 };
 
@@ -132,25 +135,43 @@ wtk.toolbar.Toolbar.prototype.handleAction_ = function(event) {
   var menu = this.buttonsAndMenus_.get(goog.getUid(button));
   if(!menu) return;
   
-  this.toggleMenu_(menu, button);
   this.hideMenus_(menu);
+  this.toggleMenu_(menu, button);
+};
+
+/**
+ * @private
+ */
+wtk.toolbar.Toolbar.prototype.openMenu_ = function(menu) {
+  this.openState_ = wtk.State.OPENED;
+  menu.setVisible(true);
+  this.overlay_.setVisible(true);
+};
+
+/**
+ * @private
+ */
+wtk.toolbar.Toolbar.prototype.closeMenu_ = function(menu) {
+  this.openState_ = wtk.State.CLOSED;
+  menu.setVisible(false);
+  this.overlay_.setVisible(false);
 };
 
 /**
  * @private
  */
 wtk.toolbar.Toolbar.prototype.toggleMenu_ = function(menu, button) {
-  var visible = (menu.isVisible()) ? false : true;
+  var visible = menu.isVisible();
   
-  if(visible) {
+  if(visible !== true) {
     var offset = goog.style.getPageOffset(button.getElement());
     var bounds = goog.style.getBounds(button.getElement());
     offset.y = offset.y + bounds.height;
     menu.setPosition(offset);
+    this.openMenu_(menu);
+  } else {
+    this.closeMenu_(menu);
   }
-  
-  menu.setVisible(visible);
-  this.overlay_.setVisible(visible);
 };
 
 /**
@@ -170,7 +191,21 @@ wtk.toolbar.Toolbar.prototype.hideMenus_ = function(opt_ignoreMenu) {
   var iter = this.buttonsAndMenus_.getValueIterator();
   goog.iter.forEach(iter, function(menu){
     if(goog.getUid(menu) !== ignoreId) {
-      menu.setVisible(false);
+      this.closeMenu_(menu);
     }
-  });
+  }, this);
+};
+
+/**
+ * @private
+ */
+wtk.toolbar.Toolbar.prototype.handleEnterEvent_ = function(event) {
+  var button = event.target;
+  var menu = this.buttonsAndMenus_.get(goog.getUid(button));
+  if(!menu) return;
+  
+  if(menu.isVisible() === true) return;
+  if(this.openState_ === wtk.State.CLOSED) return;
+  this.hideMenus_();
+  this.toggleMenu_(menu, button);
 };
