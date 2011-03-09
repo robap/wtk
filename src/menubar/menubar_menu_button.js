@@ -12,18 +12,18 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-goog.provide('wtk.toolbar.MenuButton');
+goog.provide('wtk.menubar.MenuButton');
 
 goog.require('goog.ui.CustomButton');
-goog.require('wtk.toolbar.ButtonRenderer');
+goog.require('wtk.menubar.ButtonRenderer');
 
 /**
  * @constructor
  * @extends {goog.ui.CustomButton}
  */
-wtk.toolbar.MenuButton = function(name, opt_domHelper) {
-  var renderer = wtk.toolbar.ButtonRenderer.getInstance();
+wtk.menubar.MenuButton = function(name, opt_domHelper) {
+  var renderer = wtk.menubar.ButtonRenderer.getInstance();
   
   goog.base(this, name, renderer, opt_domHelper);
 };
-goog.inherits(wtk.toolbar.MenuButton, goog.ui.CustomButton);
+goog.inherits(wtk.menubar.MenuButton, goog.ui.CustomButton);

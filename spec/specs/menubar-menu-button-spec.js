@@ -13,20 +13,20 @@
 // limitations under the License.
 
 
-goog.require('wtk.toolbar.MenuButton');
+goog.require('wtk.menubar.MenuButton');
 
-describe('wtk.toolbar.MenuButton', function() {
-  var toolbarMenuButton;
+describe('wtk.menubar.MenuButton', function() {
+  var menubarMenuButton;
   beforeEach(function() {
-    toolbarMenuButton = new wtk.toolbar.MenuButton();
-    toolbarMenuButton.render();
+    menubarMenuButton = new wtk.menubar.MenuButton();
+    menubarMenuButton.render();
   });
   afterEach(function() {
-    toolbarMenuButton.dispose();
+    menubarMenuButton.dispose();
   });
   describe('default state', function() {
-    it('uses the toolbar menu button renderer', function() {
-      expect(toolbarMenuButton.getRenderer() instanceof wtk.toolbar.ButtonRenderer).toBe(true);
+    it('uses the menubar menu button renderer', function() {
+      expect(menubarMenuButton.getRenderer() instanceof wtk.menubar.ButtonRenderer).toBe(true);
     });
   });
 });

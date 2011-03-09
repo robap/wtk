@@ -12,12 +12,12 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-goog.provide('wtk.toolbar.Toolbar');
+goog.provide('wtk.menubar.Menubar');
 
 goog.require('goog.ui.Component');
 goog.require('goog.structs.Map');
-goog.require('wtk.templates.toolbar');
-goog.require('wtk.toolbar.MenuButton');
+goog.require('wtk.templates.menubar');
+goog.require('wtk.menubar.MenuButton');
 goog.require('wtk.util.window');
 goog.require('wtk.Overlay');
 goog.require('wtk.State');
@@ -25,7 +25,7 @@ goog.require('wtk.State');
 /**
  * @constructor
  */
-wtk.toolbar.Toolbar = function(opt_ZIndex) {
+wtk.menubar.Menubar = function(opt_ZIndex) {
   goog.base(this);
   
   this.openState_ = wtk.State.CLOSED;
@@ -34,39 +34,39 @@ wtk.toolbar.Toolbar = function(opt_ZIndex) {
   this.initializeMenuContainer_();
   this.initializeOverlay_();
 };
-goog.inherits(wtk.toolbar.Toolbar, goog.ui.Component);
+goog.inherits(wtk.menubar.Menubar, goog.ui.Component);
 
 /**
  * @private
  * @type {number}
  */
-wtk.toolbar.Toolbar.prototype.zIndex_ = 0;
+wtk.menubar.Menubar.prototype.zIndex_ = 0;
 
 /**
  * @private
  * @type {goog.ui.Component)
  */
-wtk.toolbar.Toolbar.prototype.menuContainer_ = null;
+wtk.menubar.Menubar.prototype.menuContainer_ = null;
 
 /**
  * @private
  * @type {wtk.Overlay)
  */
-wtk.toolbar.Toolbar.prototype.overlay_ = null;
+wtk.menubar.Menubar.prototype.overlay_ = null;
 
 /**
  * @override
  */
-wtk.toolbar.Toolbar.prototype.createDom = function() {
+wtk.menubar.Menubar.prototype.createDom = function() {
   this.element_ = goog.dom.htmlToDocumentFragment(
-    wtk.templates.toolbar.getToolbarTemplate(this)
+    wtk.templates.menubar.getMenubarTemplate(this)
   );
 };
 
 /**
  * @override
  */
-wtk.toolbar.Toolbar.prototype.enterDocument = function() {
+wtk.menubar.Menubar.prototype.enterDocument = function() {
   goog.base(this, 'enterDocument');
   this.connectListeners_();
 };
@@ -74,20 +74,20 @@ wtk.toolbar.Toolbar.prototype.enterDocument = function() {
 /**
  * @override
  */
-wtk.toolbar.Toolbar.prototype.exitDocument = function() {
+wtk.menubar.Menubar.prototype.exitDocument = function() {
   goog.base(this, 'exitDocument');
   this.overlay_.dispose();
   this.menuContainer_.dispose();
 };
 
 /**
- * @param {wtk.toolbar.Menu} menu
+ * @param {wtk.menubar.Menu} menu
  */
-wtk.toolbar.Toolbar.prototype.addMenu = function(menu) {
+wtk.menubar.Menubar.prototype.addMenu = function(menu) {
   menu.setZIndex(this.getZIndex());
   this.menuContainer_.addChild(menu, true);
   
-  var menuButton = new wtk.toolbar.MenuButton(menu.getName(), this.getDomHelper());
+  var menuButton = new wtk.menubar.MenuButton(menu.getName(), this.getDomHelper());
   this.addChild(menuButton, true);
   
   this.buttonsAndMenus_.set(goog.getUid(menuButton), menu);
@@ -96,14 +96,14 @@ wtk.toolbar.Toolbar.prototype.addMenu = function(menu) {
 /**
  * @return {number}
  */
-wtk.toolbar.Toolbar.prototype.getZIndex = function() {
+wtk.menubar.Menubar.prototype.getZIndex = function() {
   return this.zIndex_;
 };
 
 /**
  * @private
  */
-wtk.toolbar.Toolbar.prototype.initializeMenuContainer_ = function() {
+wtk.menubar.Menubar.prototype.initializeMenuContainer_ = function() {
   this.menuContainer_ = new goog.ui.Component();
   this.menuContainer_.render();
 };
@@ -111,7 +111,7 @@ wtk.toolbar.Toolbar.prototype.initializeMenuContainer_ = function() {
 /**
  * @private
  */
-wtk.toolbar.Toolbar.prototype.initializeOverlay_ = function() {
+wtk.menubar.Menubar.prototype.initializeOverlay_ = function() {
   var winSize = wtk.util.window.getWindowBox(this.getDomHelper());
   this.overlay_ = new wtk.Overlay(winSize.right, winSize.bottom, this.zIndex_ - 1, this.getDomHelper());
   this.overlay_.setVisible(false);
@@ -121,7 +121,7 @@ wtk.toolbar.Toolbar.prototype.initializeOverlay_ = function() {
 /**
  * @private
  */
-wtk.toolbar.Toolbar.prototype.connectListeners_ = function() {
+wtk.menubar.Menubar.prototype.connectListeners_ = function() {
   goog.events.listen(this, goog.ui.Component.EventType.ACTION, this.handleAction_, false, this);
   goog.events.listen(this, goog.ui.Component.EventType.ENTER, this.handleEnterEvent_, false, this);
   goog.events.listen(this.overlay_.getElement(), goog.events.EventType.CLICK, this.hideOverlayAndMenus_, false, this);
@@ -130,7 +130,7 @@ wtk.toolbar.Toolbar.prototype.connectListeners_ = function() {
 /**
  * @private
  */
-wtk.toolbar.Toolbar.prototype.handleAction_ = function(event) {
+wtk.menubar.Menubar.prototype.handleAction_ = function(event) {
   var button = event.target;
   var menu = this.buttonsAndMenus_.get(goog.getUid(button));
   if(!menu) return;
@@ -142,7 +142,7 @@ wtk.toolbar.Toolbar.prototype.handleAction_ = function(event) {
 /**
  * @private
  */
-wtk.toolbar.Toolbar.prototype.openMenu_ = function(menu) {
+wtk.menubar.Menubar.prototype.openMenu_ = function(menu) {
   this.openState_ = wtk.State.OPENED;
   menu.setVisible(true);
   this.overlay_.setVisible(true);
@@ -151,7 +151,7 @@ wtk.toolbar.Toolbar.prototype.openMenu_ = function(menu) {
 /**
  * @private
  */
-wtk.toolbar.Toolbar.prototype.closeMenu_ = function(menu) {
+wtk.menubar.Menubar.prototype.closeMenu_ = function(menu) {
   this.openState_ = wtk.State.CLOSED;
   menu.setVisible(false);
   this.overlay_.setVisible(false);
@@ -160,7 +160,7 @@ wtk.toolbar.Toolbar.prototype.closeMenu_ = function(menu) {
 /**
  * @private
  */
-wtk.toolbar.Toolbar.prototype.toggleMenu_ = function(menu, button) {
+wtk.menubar.Menubar.prototype.toggleMenu_ = function(menu, button) {
   var visible = menu.isVisible();
   
   if(visible !== true) {
@@ -177,16 +177,16 @@ wtk.toolbar.Toolbar.prototype.toggleMenu_ = function(menu, button) {
 /**
  * @private
  */
-wtk.toolbar.Toolbar.prototype.hideOverlayAndMenus_ = function() {
+wtk.menubar.Menubar.prototype.hideOverlayAndMenus_ = function() {
   this.overlay_.setVisible(false);
   this.hideMenus_();
 };
 
 /**
  * @private
- * @param {wtk.toolbar.Menu=} opt_ignoreMenu
+ * @param {wtk.menubar.Menu=} opt_ignoreMenu
  */
-wtk.toolbar.Toolbar.prototype.hideMenus_ = function(opt_ignoreMenu) {
+wtk.menubar.Menubar.prototype.hideMenus_ = function(opt_ignoreMenu) {
   var ignoreId = (opt_ignoreMenu) ? goog.getUid(opt_ignoreMenu) : '';
   var iter = this.buttonsAndMenus_.getValueIterator();
   goog.iter.forEach(iter, function(menu){
@@ -199,7 +199,7 @@ wtk.toolbar.Toolbar.prototype.hideMenus_ = function(opt_ignoreMenu) {
 /**
  * @private
  */
-wtk.toolbar.Toolbar.prototype.handleEnterEvent_ = function(event) {
+wtk.menubar.Menubar.prototype.handleEnterEvent_ = function(event) {
   var button = event.target;
   var menu = this.buttonsAndMenus_.get(goog.getUid(button));
   if(!menu) return;

@@ -16,7 +16,7 @@
 <!doctype html>
 <html>
   <head>
-    <title>Toolbar Demo</title>
+    <title>Menubar Demo</title>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
     <link rel="stylesheet" type="text/css" href="http://yui.yahooapis.com/2.8.2r1/build/reset/reset-min.css">
     <link rel="stylesheet" type="text/css" href="http://yui.yahooapis.com/2.8.2r1/build/base/base-min.css">
@@ -26,9 +26,9 @@
     <script src="../build/deps.js"></script>
     
     <script>
-      goog.require('wtk.toolbar.Toolbar');
-      goog.require('wtk.toolbar.Menu');
-      goog.require('wtk.toolbar.MenuItem');
+      goog.require('wtk.menubar.Menubar');
+      goog.require('wtk.menubar.Menu');
+      goog.require('wtk.menubar.MenuItem');
       goog.require('wtk.ThemeSwitcher');
     </script>
   </head>
@@ -36,7 +36,7 @@
     <div>
       <div id="switcher"></div>
       <div style="margin-top: 20px; width: 60%;">
-        <div id="toolbar"></div>
+        <div id="menubar"></div>
         <div style="height: 100px; border-bottom: 1px solid #c6c6c6; border-right: 1px solid #c6c6c6; border-left: 1px solid #c6c6c6;"></div>
       </div>
     </div>
@@ -44,44 +44,44 @@
     <script>
       new wtk.ThemeSwitcher();
   
-      var toolbar = new wtk.toolbar.Toolbar();
-      toolbar.render(goog.dom.getElement('toolbar'));
+      var menubar = new wtk.menubar.Menubar();
+      menubar.render(goog.dom.getElement('menubar'));
       
-      var fileMenu = new wtk.toolbar.Menu('File');
-      var editMenu = new wtk.toolbar.Menu('Edit');
-      var navMenu = new wtk.toolbar.Menu('Navigate');
-      var helpMenu = new wtk.toolbar.Menu('Help');
+      var fileMenu = new wtk.menubar.Menu('File');
+      var editMenu = new wtk.menubar.Menu('Edit');
+      var navMenu = new wtk.menubar.Menu('Navigate');
+      var helpMenu = new wtk.menubar.Menu('Help');
       
-      var New = new wtk.toolbar.MenuItem('New');
-      var Open = new wtk.toolbar.MenuItem('Open');
-      var Save = new wtk.toolbar.MenuItem('Save');
-      var Exit = new wtk.toolbar.MenuItem('Exit');
+      var New = new wtk.menubar.MenuItem('New');
+      var Open = new wtk.menubar.MenuItem('Open');
+      var Save = new wtk.menubar.MenuItem('Save');
+      var Exit = new wtk.menubar.MenuItem('Exit');
       fileMenu.addItem(New);
       fileMenu.addItem(Open);
       fileMenu.addItem(Save);
       fileMenu.addItem(Exit);
       
-      var Cut = new wtk.toolbar.MenuItem('Cut');
-      var Copy = new wtk.toolbar.MenuItem('Copy');
-      var Undo = new wtk.toolbar.MenuItem('Undo');
-      var Redo = new wtk.toolbar.MenuItem('Redo');
+      var Cut = new wtk.menubar.MenuItem('Cut');
+      var Copy = new wtk.menubar.MenuItem('Copy');
+      var Undo = new wtk.menubar.MenuItem('Undo');
+      var Redo = new wtk.menubar.MenuItem('Redo');
       editMenu.addItem(Cut);
       editMenu.addItem(Copy);
       editMenu.addItem(Undo);
       editMenu.addItem(Redo);
       
-      var Go = new wtk.toolbar.MenuItem('Go');
-      var Find = new wtk.toolbar.MenuItem('Find');
+      var Go = new wtk.menubar.MenuItem('Go');
+      var Find = new wtk.menubar.MenuItem('Find');
       navMenu.addItem(Go);
       navMenu.addItem(Find);
       
-      var About  = new wtk.toolbar.MenuItem('About');
+      var About  = new wtk.menubar.MenuItem('About');
       helpMenu.addItem(About);
       
-      toolbar.addMenu(fileMenu);
-      toolbar.addMenu(editMenu);
-      toolbar.addMenu(navMenu);
-      toolbar.addMenu(helpMenu);
+      menubar.addMenu(fileMenu);
+      menubar.addMenu(editMenu);
+      menubar.addMenu(navMenu);
+      menubar.addMenu(helpMenu);
     </script>
   </body>
 </html>

@@ -12,7 +12,7 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-goog.provide('wtk.toolbar.Menu');
+goog.provide('wtk.menubar.Menu');
 
 goog.require('goog.ui.Component');
 
@@ -22,35 +22,35 @@ goog.require('goog.ui.Component');
  * @param {string} name - the name to be displayed in the button which will
  * open/close this menu
  */
-wtk.toolbar.Menu = function(name) {
+wtk.menubar.Menu = function(name) {
   goog.base(this);
   
   this.name_ = name;
 };
-goog.inherits(wtk.toolbar.Menu, goog.ui.Component);
+goog.inherits(wtk.menubar.Menu, goog.ui.Component);
 
 /**
  * @private
  * @type {string}
  */
-wtk.toolbar.Menu.prototype.name_ = '';
+wtk.menubar.Menu.prototype.name_ = '';
 
 /**
  * @private
  * @type {boolean}
  */
-wtk.toolbar.Menu.prototype.visible_ = false;
+wtk.menubar.Menu.prototype.visible_ = false;
 
 /**
  * @private
  * @type {number}
  */
-wtk.toolbar.Menu.prototype.zIndex_ = 0;
+wtk.menubar.Menu.prototype.zIndex_ = 0;
 
 /**
  * @override
  */
-wtk.toolbar.Menu.prototype.createDom = function() {
+wtk.menubar.Menu.prototype.createDom = function() {
   var el = this.getDomHelper().createDom('ul', 'ui-menu ui-widget ui-widget-content');
   goog.style.setStyle(el, 'position', 'absolute');
   this.setElementInternal(el);
@@ -59,7 +59,7 @@ wtk.toolbar.Menu.prototype.createDom = function() {
 /**
  * @override
  */
-wtk.toolbar.Menu.prototype.enterDocument = function() {
+wtk.menubar.Menu.prototype.enterDocument = function() {
   goog.base(this, 'enterDocument');
   
   this.setVisible_();
@@ -69,14 +69,14 @@ wtk.toolbar.Menu.prototype.enterDocument = function() {
 /**
  * @return {string}
  */
-wtk.toolbar.Menu.prototype.getName = function() {
+wtk.menubar.Menu.prototype.getName = function() {
   return this.name_;
 };
 
 /**
  * @return {string}
  */
-wtk.toolbar.Menu.prototype.setVisible = function(visible) {
+wtk.menubar.Menu.prototype.setVisible = function(visible) {
   this.visible_ = visible;
   
   this.setVisible_();
@@ -85,7 +85,7 @@ wtk.toolbar.Menu.prototype.setVisible = function(visible) {
 /**
  * @param {number}
  */
-wtk.toolbar.Menu.prototype.setZIndex = function(zIndex) {
+wtk.menubar.Menu.prototype.setZIndex = function(zIndex) {
   this.zIndex_ = zIndex;
   
   this.setZIndex_();
@@ -94,29 +94,29 @@ wtk.toolbar.Menu.prototype.setZIndex = function(zIndex) {
 /**
  * @param {goog.math.Cooridante} coordinate
  */
-wtk.toolbar.Menu.prototype.setPosition = function(coordinate) {
+wtk.menubar.Menu.prototype.setPosition = function(coordinate) {
   this.coordinate_ = coordinate;
   this.setPosition_();
 };
 
 /**
- * @param {wtk.toolbar.MenuItem}
+ * @param {wtk.menubar.MenuItem}
  */
-wtk.toolbar.Menu.prototype.addItem = function(menuItem) {
+wtk.menubar.Menu.prototype.addItem = function(menuItem) {
   this.addChild(menuItem, true);
 };
 
 /**
  * @return {boolean}
  */
-wtk.toolbar.Menu.prototype.isVisible = function() {
+wtk.menubar.Menu.prototype.isVisible = function() {
   return this.visible_;
 };
 
 /**
  * @private
  */
-wtk.toolbar.Menu.prototype.setVisible_ = function() {
+wtk.menubar.Menu.prototype.setVisible_ = function() {
   var el = this.getElement();
   
   if(el) {
@@ -127,7 +127,7 @@ wtk.toolbar.Menu.prototype.setVisible_ = function() {
 /**
  * @param {number}
  */
-wtk.toolbar.Menu.prototype.setZIndex_ = function() {
+wtk.menubar.Menu.prototype.setZIndex_ = function() {
   var el = this.getElement();
   
   if(el) {
@@ -138,7 +138,7 @@ wtk.toolbar.Menu.prototype.setZIndex_ = function() {
 /**
  * 
  */
-wtk.toolbar.Menu.prototype.setPosition_ = function() {
+wtk.menubar.Menu.prototype.setPosition_ = function() {
   var el = this.getElement();
   if(el) {
     goog.style.setPosition(el, this.coordinate_);

@@ -12,7 +12,7 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-goog.provide('wtk.toolbar.ButtonRenderer');
+goog.provide('wtk.menubar.ButtonRenderer');
 
 goog.require('goog.ui.CustomButtonRenderer');
 
@@ -20,31 +20,31 @@ goog.require('goog.ui.CustomButtonRenderer');
  * @constructor
  * @extends {goog.ui.ButtonRenderer}
  */
-wtk.toolbar.ButtonRenderer = function() {
+wtk.menubar.ButtonRenderer = function() {
   goog.base(this);
 };
-goog.inherits(wtk.toolbar.ButtonRenderer, goog.ui.CustomButtonRenderer);
-goog.addSingletonGetter(wtk.toolbar.ButtonRenderer);
+goog.inherits(wtk.menubar.ButtonRenderer, goog.ui.CustomButtonRenderer);
+goog.addSingletonGetter(wtk.menubar.ButtonRenderer);
 
 /**
  * @override
  */
-wtk.toolbar.ButtonRenderer.prototype.createDom = function(button) {
-  var dom = goog.dom.htmlToDocumentFragment(wtk.templates.toolbar.getMenuButtonTemplate(button));
+wtk.menubar.ButtonRenderer.prototype.createDom = function(button) {
+  var dom = goog.dom.htmlToDocumentFragment(wtk.templates.menubar.getMenuButtonTemplate(button));
   return dom;
 };
 
 /**
  * @override
  */
-wtk.toolbar.ButtonRenderer.prototype.getCssClass = function() {
-  return wtk.toolbar.ButtonRenderer.CSS_CLASS;
+wtk.menubar.ButtonRenderer.prototype.getCssClass = function() {
+  return wtk.menubar.ButtonRenderer.CSS_CLASS;
 };
 
 /**
  * @override
  */
-wtk.toolbar.ButtonRenderer.prototype.createClassByStateMap_ = function() {
+wtk.menubar.ButtonRenderer.prototype.createClassByStateMap_ = function() {
   var baseClass = this.getStructuralCssClass();
 
   /**
@@ -67,4 +67,4 @@ wtk.toolbar.ButtonRenderer.prototype.createClassByStateMap_ = function() {
  * by this renderer.
  * @type {string}
  */
-wtk.toolbar.ButtonRenderer.CSS_CLASS = goog.getCssName('ui');
+wtk.menubar.ButtonRenderer.CSS_CLASS = goog.getCssName('ui');

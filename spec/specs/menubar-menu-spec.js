@@ -13,39 +13,39 @@
 // limitations under the License.
 
 
-goog.require('wtk.toolbar.Menu');
+goog.require('wtk.menubar.Menu');
 
-goog.require('wtk.toolbar.MenuItem');
+goog.require('wtk.menubar.MenuItem');
 
-describe('wtk.toolbar.Menu', function() {
-  var toolbarMenu, menuName;
+describe('wtk.menubar.Menu', function() {
+  var menubarMenu, menuName;
   beforeEach(function() {
     menuName = 'foo';
-    toolbarMenu = new wtk.toolbar.Menu(menuName);
-    toolbarMenu.render();
+    menubarMenu = new wtk.menubar.Menu(menuName);
+    menubarMenu.render();
   });
   afterEach(function() {
-    toolbarMenu.dispose();
+    menubarMenu.dispose();
   });
   describe('default state', function() {
     it('sets the menu name when passed to constructor', function() {
-      expect(toolbarMenu.getName()).toBe(menuName);
+      expect(menubarMenu.getName()).toBe(menuName);
     });
     it('is not visible', function() {
-      expect(goog.style.isElementShown(toolbarMenu.getElement())).toEqual(false);
+      expect(goog.style.isElementShown(menubarMenu.getElement())).toEqual(false);
     });
   });
   describe('#addItem', function() {
     it('adds the item', function() {
-      var item = new wtk.toolbar.MenuItem('foo');
-      toolbarMenu.addItem(item);
-      expect(toolbarMenu.getChildAt(0)).toBe(item);
+      var item = new wtk.menubar.MenuItem('foo');
+      menubarMenu.addItem(item);
+      expect(menubarMenu.getChildAt(0)).toBe(item);
     });
   });
   describe('#setVisible', function() {
     it('makes the element visible', function() {
-      toolbarMenu.setVisible(true);
-      expect(goog.style.isElementShown(toolbarMenu.getElement())).toEqual(true);
+      menubarMenu.setVisible(true);
+      expect(goog.style.isElementShown(menubarMenu.getElement())).toEqual(true);
     });
   });
 });

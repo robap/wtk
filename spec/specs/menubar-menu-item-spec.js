@@ -13,16 +13,16 @@
 // limitations under the License.
 
 
-goog.require('wtk.toolbar.MenuItem');
+goog.require('wtk.menubar.MenuItem');
 
-describe('wtk.toolbar.MenuItem', function() {
-  var toolbarMenuItem;
+describe('wtk.menubar.MenuItem', function() {
+  var menubarMenuItem;
   beforeEach(function() {
-    toolbarMenuItem = new wtk.toolbar.MenuItem();
-    toolbarMenuItem.render();
+    menubarMenuItem = new wtk.menubar.MenuItem();
+    menubarMenuItem.render();
   });
   afterEach(function() {
-    toolbarMenuItem.dispose();
+    menubarMenuItem.dispose();
   });
   describe('default state', function() {
     it('...', function() {

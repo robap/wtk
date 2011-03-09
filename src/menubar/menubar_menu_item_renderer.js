@@ -12,7 +12,7 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-goog.provide('wtk.toolbar.ItemRenderer');
+goog.provide('wtk.menubar.ItemRenderer');
 
 goog.require('goog.ui.CustomButtonRenderer');
 
@@ -20,25 +20,25 @@ goog.require('goog.ui.CustomButtonRenderer');
  * @constructor
  * @extends {goog.ui.ButtonRenderer}
  */
-wtk.toolbar.ItemRenderer = function() {
+wtk.menubar.ItemRenderer = function() {
   goog.base(this);
 };
-goog.inherits(wtk.toolbar.ItemRenderer, goog.ui.CustomButtonRenderer);
-goog.addSingletonGetter(wtk.toolbar.ItemRenderer);
+goog.inherits(wtk.menubar.ItemRenderer, goog.ui.CustomButtonRenderer);
+goog.addSingletonGetter(wtk.menubar.ItemRenderer);
 
 /**
  * @override
  */
-wtk.toolbar.ItemRenderer.prototype.createDom = function(button) {
-  var dom = goog.dom.htmlToDocumentFragment(wtk.templates.toolbar.getMenuItemTemplate(button));
+wtk.menubar.ItemRenderer.prototype.createDom = function(button) {
+  var dom = goog.dom.htmlToDocumentFragment(wtk.templates.menubar.getMenuItemTemplate(button));
   return dom;
 };
 
 /**
  * @override
  */
-wtk.toolbar.ItemRenderer.prototype.getCssClass = function() {
-  return wtk.toolbar.ItemRenderer.CSS_CLASS;
+wtk.menubar.ItemRenderer.prototype.getCssClass = function() {
+  return wtk.menubar.ItemRenderer.CSS_CLASS;
 };
 
 /**
@@ -46,14 +46,14 @@ wtk.toolbar.ItemRenderer.prototype.getCssClass = function() {
  * @return {goog.dom.a11y.Role|undefined} ARIA role.
  * @override
  */
-wtk.toolbar.ItemRenderer.prototype.getAriaRole = function() {
+wtk.menubar.ItemRenderer.prototype.getAriaRole = function() {
   return goog.dom.a11y.Role.MENU_ITEM;
 };
 
 /**
  * @override
  */
-wtk.toolbar.ItemRenderer.prototype.createClassByStateMap_ = function() {
+wtk.menubar.ItemRenderer.prototype.createClassByStateMap_ = function() {
   var baseClass = this.getStructuralCssClass();
 
   /**
@@ -76,4 +76,4 @@ wtk.toolbar.ItemRenderer.prototype.createClassByStateMap_ = function() {
  * by this renderer.
  * @type {string}
  */
-wtk.toolbar.ItemRenderer.CSS_CLASS = goog.getCssName('ui');
+wtk.menubar.ItemRenderer.CSS_CLASS = goog.getCssName('ui');

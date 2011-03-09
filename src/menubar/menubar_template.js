@@ -12,17 +12,17 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-goog.provide('wtk.templates.toolbar');
+goog.provide('wtk.templates.menubar');
 
 goog.require('goog.string');
 
 /**
- * returns the main Toolbar template string merged with Toolbar object
- * @param {wtk.toolbar.Toolbar} toolbar
+ * returns the main Menubar template string merged with Menubar object
+ * @param {wtk.menubar.Menubar} menubar
  * @return {string}
  */
-wtk.templates.toolbar.getToolbarTemplate = function(toolbar) {
-  var z = goog.string.htmlEscape(toolbar.getZIndex());
+wtk.templates.menubar.getMenubarTemplate = function(menubar) {
+  var z = goog.string.htmlEscape(menubar.getZIndex());
   var t = '<div class="ui-widget ui-widget-content" style="position: relative; z-index: '+z+';">'
         + '</div>'
         ;
@@ -31,11 +31,11 @@ wtk.templates.toolbar.getToolbarTemplate = function(toolbar) {
 };
 
 /**
- * returns a menu button template string merged with Toolbar Button object
- * @param {wtk.toolbar.MenuButton} button
+ * returns a menu button template string merged with Menubar Button object
+ * @param {wtk.menubar.MenuButton} button
  * @return {string}
  */
-wtk.templates.toolbar.getMenuButtonTemplate = function(button) {
+wtk.templates.menubar.getMenuButtonTemplate = function(button) {
   
   var name = goog.string.htmlEscape(button.getContent());
   
@@ -48,11 +48,11 @@ wtk.templates.toolbar.getMenuButtonTemplate = function(button) {
 };
 
 /**
- * returns a menu item template string merged with Toolbar menu item object
- * @param {wtk.toolbar.MenuItem} item
+ * returns a menu item template string merged with Menubar menu item object
+ * @param {wtk.menubar.MenuItem} item
  * @return {string}
  */
-wtk.templates.toolbar.getMenuItemTemplate = function(item) {
+wtk.templates.menubar.getMenuItemTemplate = function(item) {
   var name = goog.string.htmlEscape(item.getContent());
   
   var t = '<li class="ui-menu ui-menu-item" style="border: none; cursor: default; min-width: 100px;">'
