@@ -53,10 +53,22 @@ wtk.templates.menubar.getMenuButtonTemplate = function(button) {
  * @return {string}
  */
 wtk.templates.menubar.getMenuItemTemplate = function(item) {
-  var name = goog.string.htmlEscape(item.getContent());
+  var name = goog.string.htmlEscape(item.getName());
+  var cssClass = goog.string.htmlEscape(item.getIcon() || '');
+  if(cssClass !== '') {
+    cssClass = 'ui-icon ' + cssClass;
+  }
   
   var t = '<li class="ui-menu ui-menu-item" style="border: none; cursor: default; min-width: 100px;">'
-        +   '<a tabindex="-1" class="ui-corner-all" href="#" style="font-weight: normal;">' + name + '</a>'
+        +   '<a tabindex="-1" class="ui-corner-all" href="#" style="font-weight: normal;">'
+        +     '<div style="display: inline-block; position: relative; top: 2px; width: 16px; '
+        +        'height: 16px; margin-right: 0.3em;" class="' + cssClass + '">'
+        +      '</div>'
+        +     '<div style="display: inline-block;">'
+        +       name
+        +     '</div>'
+        +     '<div style="display: inline-block; min-width: 16px;"></div>'
+        +   '</a>'
         + '</li>'
         ;
         

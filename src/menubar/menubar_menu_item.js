@@ -16,16 +16,35 @@ goog.provide('wtk.menubar.MenuItem');
 
 goog.require('goog.ui.CustomButton');
 goog.require('wtk.menubar.ItemRenderer');
+goog.require('wtk.icon');
 
 /**
  * @constructor
  * @extends {goog.ui.CustomButton}
+ * @param {string} name
+ * @param {string} icon
+ * @param {goog.dom.DomHelper=} opt_domHelper Optional DOM helper.
  */
-wtk.menubar.MenuItem = function(content, opt_domHelper) {
+wtk.menubar.MenuItem = function(name, icon, opt_domHelper) {
   var renderer = wtk.menubar.ItemRenderer.getInstance();
   
-  goog.base(this, content, renderer, opt_domHelper);
+  this.name_ = name;
+  this.icon_ = icon;
   
+  goog.base(this, '', renderer, opt_domHelper);
 };
 goog.inherits(wtk.menubar.MenuItem, goog.ui.CustomButton);
 
+/**
+ * @return {string}
+ */
+wtk.menubar.MenuItem.prototype.getName = function() {
+  return this.name_;
+};
+
+/**
+ * @return {string}
+ */
+wtk.menubar.MenuItem.prototype.getIcon = function() {
+  return this.icon_;
+};

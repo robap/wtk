@@ -12,26 +12,20 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
+goog.provide('wtk.icon');
 
-goog.require('wtk.menubar.MenuItem');
-
-describe('wtk.menubar.MenuItem', function() {
-  var menuItem, name, icon;
-  beforeEach(function() {
-    name = 'foo';
-    icon = wtk.icon.FOLDER_OPEN;
-    menuItem = new wtk.menubar.MenuItem(name, icon);
-    menuItem.render();
-  });
-  afterEach(function() {
-    menuItem.dispose();
-  });
-  describe('default state', function() {
-    it('sets the name', function() {
-      expect(menuItem.getName()).toBe(name);
-    });
-    it('sets the icon', function() {
-      expect(menuItem.getIcon()).toBe(icon);
-    });
-  });
-});
+/**
+ * @enum {string}
+ */
+wtk.icon = {
+  ARROW_RETURNTHICK_1_E: 'ui-icon-arrowreturnthick-1-e',
+  ARROW_RETURNTHICK_1_W: 'ui-icon-arrowreturnthick-1-w',
+  CLIPBOARD: 'ui-icon-clipboard',
+  COPY: 'ui-icon-copy',
+  DISK: 'ui-icon-disk',
+  FOLDER_COLLAPSED: 'ui-icon-folder-collapsed',
+  FOLDER_OPEN: 'ui-icon-folder-open',
+  INFO: 'ui-icon-info',
+  NEW_WIN: 'ui-icon-newwin',
+  SEARCH: 'ui-icon-search'
+};

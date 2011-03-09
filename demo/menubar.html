@@ -52,30 +52,30 @@
       var navMenu = new wtk.menubar.Menu('Navigate');
       var helpMenu = new wtk.menubar.Menu('Help');
       
-      var New = new wtk.menubar.MenuItem('New');
-      var Open = new wtk.menubar.MenuItem('Open');
-      var Save = new wtk.menubar.MenuItem('Save');
+      var New = new wtk.menubar.MenuItem('New', wtk.icon.NEW_WIN);
+      var Open = new wtk.menubar.MenuItem('Open', wtk.icon.FOLDER_OPEN);
+      var Save = new wtk.menubar.MenuItem('Save', wtk.icon.DISK);
       var Exit = new wtk.menubar.MenuItem('Exit');
       fileMenu.addItem(New);
       fileMenu.addItem(Open);
       fileMenu.addItem(Save);
       fileMenu.addItem(Exit);
       
-      var Cut = new wtk.menubar.MenuItem('Cut');
-      var Copy = new wtk.menubar.MenuItem('Copy');
-      var Undo = new wtk.menubar.MenuItem('Undo');
-      var Redo = new wtk.menubar.MenuItem('Redo');
-      editMenu.addItem(Cut);
+      var Copy = new wtk.menubar.MenuItem('Copy', wtk.icon.COPY);
+      var Paste = new wtk.menubar.MenuItem('Paste', wtk.icon.CLIPBOARD);
+      var Undo = new wtk.menubar.MenuItem('Undo', wtk.icon.ARROW_RETURNTHICK_1_W);
+      var Redo = new wtk.menubar.MenuItem('Redo', wtk.icon.ARROW_RETURNTHICK_1_E);
       editMenu.addItem(Copy);
+      editMenu.addItem(Paste);
       editMenu.addItem(Undo);
       editMenu.addItem(Redo);
       
       var Go = new wtk.menubar.MenuItem('Go');
-      var Find = new wtk.menubar.MenuItem('Find');
+      var Find = new wtk.menubar.MenuItem('Find', wtk.icon.SEARCH);
       navMenu.addItem(Go);
       navMenu.addItem(Find);
       
-      var About  = new wtk.menubar.MenuItem('About');
+      var About  = new wtk.menubar.MenuItem('About', wtk.icon.INFO);
       helpMenu.addItem(About);
       
       menubar.addMenu(fileMenu);
