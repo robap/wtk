@@ -83,7 +83,7 @@ wtk.menubar.Menu.prototype.setVisible = function(visible) {
 };
 
 /**
- * @param {number}
+ * @param {number} zIndex
  */
 wtk.menubar.Menu.prototype.setZIndex = function(zIndex) {
   this.zIndex_ = zIndex;
@@ -100,7 +100,7 @@ wtk.menubar.Menu.prototype.setPosition = function(coordinate) {
 };
 
 /**
- * @param {wtk.menubar.MenuItem}
+ * @param {wtk.menubar.MenuItem} menuItem
  */
 wtk.menubar.Menu.prototype.addItem = function(menuItem) {
   this.addChild(menuItem, true);
@@ -125,7 +125,7 @@ wtk.menubar.Menu.prototype.setVisible_ = function() {
 };
 
 /**
- * @param {number}
+ * @private
  */
 wtk.menubar.Menu.prototype.setZIndex_ = function() {
   var el = this.getElement();
@@ -136,7 +136,7 @@ wtk.menubar.Menu.prototype.setZIndex_ = function() {
 };
 
 /**
- * 
+ * @private
  */
 wtk.menubar.Menu.prototype.setPosition_ = function() {
   var el = this.getElement();

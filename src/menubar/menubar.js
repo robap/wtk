@@ -18,6 +18,8 @@ goog.require('goog.ui.Component');
 goog.require('goog.structs.Map');
 goog.require('wtk.templates.menubar');
 goog.require('wtk.menubar.MenuButton');
+goog.require('wtk.menubar.Menu');
+goog.require('wtk.menubar.MenuItem');
 goog.require('wtk.util.window');
 goog.require('wtk.Overlay');
 goog.require('wtk.State');
@@ -44,13 +46,13 @@ wtk.menubar.Menubar.prototype.zIndex_ = 0;
 
 /**
  * @private
- * @type {goog.ui.Component)
+ * @type {goog.ui.Component}
  */
 wtk.menubar.Menubar.prototype.menuContainer_ = null;
 
 /**
  * @private
- * @type {wtk.Overlay)
+ * @type {wtk.Overlay}
  */
 wtk.menubar.Menubar.prototype.overlay_ = null;
 

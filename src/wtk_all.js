@@ -17,3 +17,5 @@ goog.require('wtk.effects.BlindOut');
 goog.require('wtk.effects.FadeIn');
 goog.require('wtk.effects.FadeOut');
 goog.require('wtk.Dialog');
+goog.require('wtk.Button');
+goog.require('wtk.menubar.Menubar');
