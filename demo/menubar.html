@@ -50,6 +50,12 @@
         alert('command 1 executing');
       });
       
+      var commd2 = new wtk.util.Command();
+      commd2.setEnable(false);
+      goog.events.listen(commd2, wtk.util.Command.EventType.EXECUTE, function(e) {
+        alert('command 2 will never execute because it is disabled');
+      });
+      
       var menubar = new wtk.menubar.Menubar();
       menubar.render(goog.dom.getElement('menubar'));
       
@@ -68,6 +74,7 @@
       fileMenu.addItem(Exit);
       
       commd1.attachControl(New);
+      commd2.attachControl(Exit);
       
       var Copy = new wtk.menubar.MenuItem('Copy', wtk.icon.COPY);
       var Paste = new wtk.menubar.MenuItem('Paste', wtk.icon.CLIPBOARD);

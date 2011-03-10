@@ -15,9 +15,12 @@
 goog.provide('wtk.util.Command');
 
 goog.require('goog.events.EventTarget');
+goog.require('goog.structs.Set');
 
 wtk.util.Command = function() {
   goog.base(this);
+  
+  this.controls_ = new goog.structs.Set();
 };
 goog.inherits(wtk.util.Command, goog.events.EventTarget);
 
@@ -26,6 +29,12 @@ goog.inherits(wtk.util.Command, goog.events.EventTarget);
  * @type {boolean}
  */
 wtk.util.Command.prototype.enabled_ = true;
+
+/**
+ * @private
+ * @type {goog.structs.Set}
+ */
+wtk.util.Command.prototype.controls_ = null;
 
 /**
  * Attempts to dispatch the EXECUTE event
@@ -41,6 +50,7 @@ wtk.util.Command.prototype.execute = function() {
  */
 wtk.util.Command.prototype.setEnable = function(enable) {
   this.enabled_ = enable;
+  this.setEnable_();
 };
 
 /**
@@ -55,7 +65,20 @@ wtk.util.Command.prototype.getEnable = function() {
  * @param {goog.ui.Control} control
  */
 wtk.util.Command.prototype.attachControl = function(control) {
+  this.controls_.add(control);
   goog.events.listen(control, goog.ui.Component.EventType.ACTION, this.execute, false, this);
+  this.setEnable_();
+};
+
+/**
+ * @private
+ */
+wtk.util.Command.prototype.setEnable_ = function() {
+  var state = (this.enabled_) ? false : true;
+  var controls = this.controls_.getValues();
+  for(var i = 0; i<controls.length; i++) {
+    controls[i].setState(goog.ui.Component.State.DISABLED, state);
+  }
 };
 
 wtk.util.Command.EventType = {

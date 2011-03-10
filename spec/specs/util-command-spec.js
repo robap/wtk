@@ -14,6 +14,8 @@
 
 goog.require('wtk.util.Command');
 
+goog.require('goog.ui.Button');
+
 describe('wtk.util.Command', function() {
   var command;
   beforeEach(function() {
@@ -29,6 +31,17 @@ describe('wtk.util.Command', function() {
       var enabled = false;
       command.setEnable(enabled);
       expect(command.getEnable()).toBe(false);
+    });
+    describe('disabling a command with Control attached', function() {
+      var button;
+      beforeEach(function() {
+        button = new goog.ui.Button();
+        command.attachControl(button);
+        command.setEnable(false);
+      })
+      it('sets the Control state to disabled', function() {
+        expect(button.hasState(goog.ui.Component.State.DISABLED)).toBe(true);
+      });
     });
   });
   describe('#execute', function() {
@@ -52,11 +65,26 @@ describe('wtk.util.Command', function() {
     });
   });
   describe('#attachControl', function() {
+    var button;
+    beforeEach(function() {
+      button = new goog.ui.Button();
+    });
     it("listens to the Control's ACTION event", function() {
-      var button = new goog.ui.Button();
       command.attachControl(button);
       var listener = goog.events.hasListener(button, goog.ui.Component.EventType.ACTION);
       expect(listener).toBe(true);
+    });
+    describe('attaching with different starting states of command', function() {
+      it("enables the attached Control", function() {
+        command.setEnable(true);
+        command.attachControl(button);
+        expect(button.hasState(goog.ui.Component.State.DISABLED)).toBe(false);
+      });
+      it("disabled the attached Control", function() {
+        command.setEnable(false);
+        command.attachControl(button);
+        expect(button.hasState(goog.ui.Component.State.DISABLED)).toBe(true);
+      });
     });
   });
 });
