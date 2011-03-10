@@ -21,8 +21,41 @@ wtk.util.Command = function() {
 };
 goog.inherits(wtk.util.Command, goog.events.EventTarget);
 
+/**
+ * @private
+ * @type {boolean}
+ */
+wtk.util.Command.prototype.enabled_ = true;
+
+/**
+ * Attempts to dispatch the EXECUTE event
+ */
 wtk.util.Command.prototype.execute = function() {
-  this.dispatchEvent(wtk.util.Command.EventType.EXECUTE);
+  if(this.enabled_) {
+    this.dispatchEvent(wtk.util.Command.EventType.EXECUTE);
+  }
+};
+
+/**
+ * @param {boolean} enable
+ */
+wtk.util.Command.prototype.setEnable = function(enable) {
+  this.enabled_ = enable;
+};
+
+/**
+ * @return {boolean}
+ */
+wtk.util.Command.prototype.getEnable = function() {
+  return this.enabled_;
+};
+
+/**
+ * Can be anything which extends or implements Control's setState method (such as Button)
+ * @param {goog.ui.Control} control
+ */
+wtk.util.Command.prototype.attachControl = function(control) {
+  goog.events.listen(control, goog.ui.Component.EventType.ACTION, this.execute, false, this);
 };
 
 wtk.util.Command.EventType = {

@@ -19,14 +19,44 @@ describe('wtk.util.Command', function() {
   beforeEach(function() {
     command = new wtk.util.Command();
   });
+  describe('default', function() {
+    it('is enabled', function() {
+      expect(command.getEnable()).toBe(true);
+    });
+  });
+  describe('#setEnabled', function() {
+    it('sets using supplied boolean', function() {
+      var enabled = false;
+      command.setEnable(enabled);
+      expect(command.getEnable()).toBe(false);
+    });
+  });
   describe('#execute', function() {
-    it('dispatches execute event', function() {
+    it('dispatches execute event when enabled', function() {
       var eventFired = false;
+      command.setEnable(true);
       goog.events.listenOnce(command, wtk.util.Command.EventType.EXECUTE, function() {
         eventFired = true;
       });
       command.execute();
       expect(eventFired).toBe(true);
+    });
+    it('does not dispatch execute event when disabled', function() {
+      var eventFired = false;
+      command.setEnable(false);
+      goog.events.listenOnce(command, wtk.util.Command.EventType.EXECUTE, function() {
+        eventFired = true;
+      });
+      command.execute();
+      expect(eventFired).toBe(false);
+    });
+  });
+  describe('#attachControl', function() {
+    it("listens to the Control's ACTION event", function() {
+      var button = new goog.ui.Button();
+      command.attachControl(button);
+      var listener = goog.events.hasListener(button, goog.ui.Component.EventType.ACTION);
+      expect(listener).toBe(true);
     });
   });
 });

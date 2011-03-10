@@ -29,6 +29,7 @@
       goog.require('wtk.menubar.Menubar');
       goog.require('wtk.menubar.Menu');
       goog.require('wtk.menubar.MenuItem');
+      goog.require('wtk.util.Command');
       goog.require('wtk.ThemeSwitcher');
     </script>
   </head>
@@ -43,7 +44,12 @@
     
     <script>
       new wtk.ThemeSwitcher();
-  
+      
+      var commd1 = new wtk.util.Command();
+      goog.events.listen(commd1, wtk.util.Command.EventType.EXECUTE, function(e) {
+        alert('command 1 executing');
+      });
+      
       var menubar = new wtk.menubar.Menubar();
       menubar.render(goog.dom.getElement('menubar'));
       
@@ -60,6 +66,8 @@
       fileMenu.addItem(Open);
       fileMenu.addItem(Save);
       fileMenu.addItem(Exit);
+      
+      commd1.attachControl(New);
       
       var Copy = new wtk.menubar.MenuItem('Copy', wtk.icon.COPY);
       var Paste = new wtk.menubar.MenuItem('Paste', wtk.icon.CLIPBOARD);
