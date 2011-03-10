@@ -35,6 +35,7 @@ wtk.menubar.Menubar = function(opt_ZIndex) {
   this.zIndex_ = opt_ZIndex || 900;
   this.initializeMenuContainer_();
   this.initializeOverlay_();
+  this.connectListeners_();
 };
 goog.inherits(wtk.menubar.Menubar, goog.ui.Component);
 
@@ -68,16 +69,8 @@ wtk.menubar.Menubar.prototype.createDom = function() {
 /**
  * @override
  */
-wtk.menubar.Menubar.prototype.enterDocument = function() {
-  goog.base(this, 'enterDocument');
-  this.connectListeners_();
-};
-
-/**
- * @override
- */
-wtk.menubar.Menubar.prototype.exitDocument = function() {
-  goog.base(this, 'exitDocument');
+wtk.menubar.Menubar.prototype.disposeInternal = function() {
+  goog.base(this, 'disposeInternal');
   this.overlay_.dispose();
   this.menuContainer_.dispose();
 };
@@ -118,6 +111,7 @@ wtk.menubar.Menubar.prototype.initializeOverlay_ = function() {
   this.overlay_ = new wtk.Overlay(winSize.right, winSize.bottom, this.zIndex_ - 1, this.getDomHelper());
   this.overlay_.setVisible(false);
   this.overlay_.render();
+  goog.events.listen(this.overlay_.getElement(), goog.events.EventType.CLICK, this.hideOverlayAndMenus_, false, this);
 };
 
 /**
@@ -126,7 +120,7 @@ wtk.menubar.Menubar.prototype.initializeOverlay_ = function() {
 wtk.menubar.Menubar.prototype.connectListeners_ = function() {
   goog.events.listen(this, goog.ui.Component.EventType.ACTION, this.handleAction_, false, this);
   goog.events.listen(this, goog.ui.Component.EventType.ENTER, this.handleEnterEvent_, false, this);
-  goog.events.listen(this.overlay_.getElement(), goog.events.EventType.CLICK, this.hideOverlayAndMenus_, false, this);
+  goog.events.listen(this.menuContainer_, goog.ui.Component.EventType.ACTION, this.handleMenuActionEvent_, false, this);
 };
 
 /**
@@ -210,4 +204,8 @@ wtk.menubar.Menubar.prototype.handleEnterEvent_ = function(event) {
   if(this.openState_ === wtk.State.CLOSED) return;
   this.hideMenus_();
   this.toggleMenu_(menu, button);
+};
+
+wtk.menubar.Menubar.prototype.handleMenuActionEvent_ = function() {
+  this.hideOverlayAndMenus_();
 };

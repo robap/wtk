@@ -152,6 +152,14 @@ describe('wtk.menubar.Menubar', function() {
           });
         });
       });
+      describe('and an item within is clicked', function() {
+        it('closes the menu', function() {
+          var item = new wtk.menubar.MenuItem('foo', 'bar');
+          menu1.addItem(item);
+          item.dispatchEvent(goog.ui.Component.EventType.ACTION);
+          expect(menu1.isVisible()).toBe(false);
+        });
+      });
     });
     describe('when no menus are visible', function() {
       beforeEach(function() {
