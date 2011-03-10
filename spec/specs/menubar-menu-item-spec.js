@@ -15,6 +15,9 @@
 
 goog.require('wtk.menubar.MenuItem');
 
+goog.require('goog.testing.events');
+goog.require('goog.events');
+
 describe('wtk.menubar.MenuItem', function() {
   var menuItem, name, icon;
   beforeEach(function() {
@@ -26,12 +29,15 @@ describe('wtk.menubar.MenuItem', function() {
   afterEach(function() {
     menuItem.dispose();
   });
-  describe('default state', function() {
+  describe('default rendered state', function() {
     it('sets the name', function() {
       expect(menuItem.getName()).toBe(name);
     });
     it('sets the icon', function() {
       expect(menuItem.getIcon()).toBe(icon);
+    });
+    it('prevents default click on anchor', function() {
+      //TODO: figure out how to test this
     });
   });
 });

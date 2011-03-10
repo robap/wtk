@@ -206,6 +206,9 @@ wtk.menubar.Menubar.prototype.handleEnterEvent_ = function(event) {
   this.toggleMenu_(menu, button);
 };
 
+/**
+ * @private
+ */
 wtk.menubar.Menubar.prototype.handleMenuActionEvent_ = function() {
   this.hideOverlayAndMenus_();
 };
