@@ -23,13 +23,15 @@ goog.require('wtk.icon');
  * @extends {goog.ui.CustomButton}
  * @param {string} name
  * @param {string} icon
+ * @param {string} opt_shortcutIdentifier
  * @param {goog.dom.DomHelper=} opt_domHelper Optional DOM helper.
  */
-wtk.menubar.MenuItem = function(name, icon, opt_domHelper) {
+wtk.menubar.MenuItem = function(name, icon, opt_shortcutIdentifier, opt_domHelper) {
   var renderer = wtk.menubar.ItemRenderer.getInstance();
   
   this.name_ = name;
   this.icon_ = icon;
+  this.shortcutIdentifier_ = opt_shortcutIdentifier;
   
   goog.base(this, '', renderer, opt_domHelper);
 };
@@ -57,6 +59,13 @@ wtk.menubar.MenuItem.prototype.getName = function() {
  */
 wtk.menubar.MenuItem.prototype.getIcon = function() {
   return this.icon_;
+};
+
+/**
+ * @return {string}
+ */
+wtk.menubar.MenuItem.prototype.getShortcutIdentifier = function() {
+  return this.shortcutIdentifier_;
 };
 
 /**

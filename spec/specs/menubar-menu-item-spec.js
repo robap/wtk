@@ -19,11 +19,12 @@ goog.require('goog.testing.events');
 goog.require('goog.events');
 
 describe('wtk.menubar.MenuItem', function() {
-  var menuItem, name, icon;
+  var menuItem, name, icon, shortcutIdentifier;
   beforeEach(function() {
     name = 'foo';
     icon = wtk.icon.FOLDER_OPEN;
-    menuItem = new wtk.menubar.MenuItem(name, icon);
+    shortcutIdentifier = 'shift+s'
+    menuItem = new wtk.menubar.MenuItem(name, icon, shortcutIdentifier);
     menuItem.render();
   });
   afterEach(function() {
@@ -35,6 +36,9 @@ describe('wtk.menubar.MenuItem', function() {
     });
     it('sets the icon', function() {
       expect(menuItem.getIcon()).toBe(icon);
+    });
+    it('sets the shortcut identifier', function() {
+      expect(menuItem.getShortcutIdentifier()).toBe(shortcutIdentifier);
     });
     it('prevents default click on anchor', function() {
       //TODO: figure out how to test this

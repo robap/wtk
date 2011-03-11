@@ -74,10 +74,11 @@
       fileMenu.addItem(Open);
       
       //Save menu item or F1 key will invoke the save command
-      var Save = new wtk.menubar.MenuItem('Save', wtk.icon.DISK);
+      var F1 = 'F1';
+      var Save = new wtk.menubar.MenuItem('Save', wtk.icon.DISK, F1);
       fileMenu.addItem(Save);
       saveCommand.attachControl(Save);
-      saveCommand.attachControl(new wtk.util.KeyboardShortcut('F1', 'F1'))
+      saveCommand.attachControl(new wtk.util.KeyboardShortcut(F1, F1));
       
       var Exit = new wtk.menubar.MenuItem('Exit');
       fileMenu.addItem(Exit);
