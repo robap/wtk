@@ -30,6 +30,7 @@
       goog.require('wtk.menubar.Menu');
       goog.require('wtk.menubar.MenuItem');
       goog.require('wtk.util.Command');
+      goog.require('wtk.util.KeyboardShortcut');
       goog.require('wtk.ThemeSwitcher');
     </script>
   </head>
@@ -45,9 +46,9 @@
     <script>
       new wtk.ThemeSwitcher();
       
-      var commd1 = new wtk.util.Command();
-      goog.events.listen(commd1, wtk.util.Command.EventType.EXECUTE, function(e) {
-        alert('command 1 executing');
+      var saveCommand = new wtk.util.Command();
+      goog.events.listen(saveCommand, wtk.util.Command.EventType.EXECUTE, function(e) {
+        alert('simulating a save command...');
       });
       
       var commd2 = new wtk.util.Command();
@@ -57,7 +58,6 @@
       });
       
       var undoCommand = new wtk.util.Command();
-      undoCommand.setEnable(false);
       
       var menubar = new wtk.menubar.Menubar();
       menubar.render(goog.dom.getElement('menubar'));
@@ -68,31 +68,39 @@
       var helpMenu = new wtk.menubar.Menu('Help');
       
       var New = new wtk.menubar.MenuItem('New', wtk.icon.NEW_WIN);
-      var Open = new wtk.menubar.MenuItem('Open', wtk.icon.FOLDER_OPEN);
-      var Save = new wtk.menubar.MenuItem('Save', wtk.icon.DISK);
-      var Exit = new wtk.menubar.MenuItem('Exit');
       fileMenu.addItem(New);
-      fileMenu.addItem(Open);
-      fileMenu.addItem(Save);
-      fileMenu.addItem(Exit);
       
-      commd1.attachControl(New);
+      var Open = new wtk.menubar.MenuItem('Open', wtk.icon.FOLDER_OPEN);
+      fileMenu.addItem(Open);
+      
+      //Save menu item or F1 key will invoke the save command
+      var Save = new wtk.menubar.MenuItem('Save', wtk.icon.DISK);
+      fileMenu.addItem(Save);
+      saveCommand.attachControl(Save);
+      saveCommand.attachControl(new wtk.util.KeyboardShortcut('F1', 'F1'))
+      
+      var Exit = new wtk.menubar.MenuItem('Exit');
+      fileMenu.addItem(Exit);
       commd2.attachControl(Exit);
       
       var Copy = new wtk.menubar.MenuItem('Copy', wtk.icon.COPY);
-      var Paste = new wtk.menubar.MenuItem('Paste', wtk.icon.CLIPBOARD);
-      var Undo = new wtk.menubar.MenuItem('Undo', wtk.icon.ARROW_RETURNTHICK_1_W);
-      var Redo = new wtk.menubar.MenuItem('Redo', wtk.icon.ARROW_RETURNTHICK_1_E);
       editMenu.addItem(Copy);
-      editMenu.addItem(Paste);
-      editMenu.addItem(Undo);
-      editMenu.addItem(Redo);
       
+      var Paste = new wtk.menubar.MenuItem('Paste', wtk.icon.CLIPBOARD);
+      editMenu.addItem(Paste);
+      
+      var Undo = new wtk.menubar.MenuItem('Undo', wtk.icon.ARROW_RETURNTHICK_1_W);
+      editMenu.addItem(Undo);
+      undoCommand.setEnable(false);
       undoCommand.attachControl(Undo);
       
+      var Redo = new wtk.menubar.MenuItem('Redo', wtk.icon.ARROW_RETURNTHICK_1_E);
+      editMenu.addItem(Redo);
+      
       var Go = new wtk.menubar.MenuItem('Go');
-      var Find = new wtk.menubar.MenuItem('Find', wtk.icon.SEARCH);
       navMenu.addItem(Go);
+      
+      var Find = new wtk.menubar.MenuItem('Find', wtk.icon.SEARCH);
       navMenu.addItem(Find);
       
       var About  = new wtk.menubar.MenuItem('About', wtk.icon.INFO);
