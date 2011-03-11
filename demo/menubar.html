@@ -56,6 +56,9 @@
         alert('command 2 will never execute because it is disabled');
       });
       
+      var undoCommand = new wtk.util.Command();
+      undoCommand.setEnable(false);
+      
       var menubar = new wtk.menubar.Menubar();
       menubar.render(goog.dom.getElement('menubar'));
       
@@ -84,6 +87,8 @@
       editMenu.addItem(Paste);
       editMenu.addItem(Undo);
       editMenu.addItem(Redo);
+      
+      undoCommand.attachControl(Undo);
       
       var Go = new wtk.menubar.MenuItem('Go');
       var Find = new wtk.menubar.MenuItem('Find', wtk.icon.SEARCH);
