@@ -7,7 +7,11 @@
   <property name="jar_dir" location="${base_dir}/jar" />
   <property name="build_dir" location="${base_dir}/build" />
   
-  <target name="build-deps" description="calculate and build dependancies">
+  <target name="init">
+    <mkdir dir="${build_dir}"/>
+  </target>
+  
+  <target name="build-deps" description="calculate and build dependancies" depends="init">
     <exec executable="python" failonerror="true" logError="true" output="${build_dir}/deps.js">
       <arg value="${closure_lib_dir}/bin/calcdeps.py" />
       <arg line='-p "${closure_lib_dir}"' />
@@ -16,7 +20,7 @@
     </exec>
   </target>
   
-  <target name="compile-all" description="Compile all widgets to check for warnings or errors">
+  <target name="compile-all" description="Compile all widgets to check for warnings or errors" depends="init">
     <exec executable="python" failonerror="true" logError="true" output="${build_dir}/wtk-compiled.js">
       <arg value="${closure_lib_dir}/bin/calcdeps.py" />
       <arg line='-p "${closure_lib_dir}"' />
