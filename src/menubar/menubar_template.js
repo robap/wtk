@@ -39,7 +39,9 @@ wtk.templates.menubar.getMenuButtonTemplate = function(button) {
   
   var name = goog.string.htmlEscape(button.getContent());
   
-  var t = '<div style="display: inline-block; outline-style: none; cursor: default; border: none; padding: 0.2em 0.4em; font-weight: normal;">'
+  var inline = (goog.userAgent.IE) ? 'inline' : 'inline-block';
+  
+  var t = '<div style="display: ' + inline + '; zoom: 1; outline-style: none; cursor: default; border: none; padding: 0.2em 0.4em; font-weight: normal;">'
         +   '<div style="padding: 0.2em;">' + name + '</div>'
         + '</div>'
         ;
