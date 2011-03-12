@@ -51,7 +51,7 @@ wtk.menubar.Menu.prototype.zIndex_ = 0;
  * @override
  */
 wtk.menubar.Menu.prototype.createDom = function() {
-  var el = this.getDomHelper().createDom('ul', 'ui-menu ui-widget ui-widget-content');
+  var el = this.getDomHelper().createDom('div', 'ui-widget ui-widget-content');
   goog.style.setStyle(el, 'position', 'absolute');
   this.setElementInternal(el);
 };

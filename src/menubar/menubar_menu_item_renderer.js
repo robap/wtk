@@ -66,8 +66,7 @@ wtk.menubar.ItemRenderer.prototype.createClassByStateMap_ = function() {
    */
   this.classByState_ = goog.object.create(
       goog.ui.Component.State.DISABLED, goog.getCssName(baseClass, 'state-disabled'),
-      goog.ui.Component.State.HOVER, goog.getCssName(baseClass, 'state-hover'),
-      goog.ui.Component.State.ACTIVE, goog.getCssName(baseClass, 'state-active')
+      goog.ui.Component.State.HOVER, goog.getCssName(baseClass, 'state-hover')
   );
 };
 

@@ -46,6 +46,11 @@
     <script>
       new wtk.ThemeSwitcher();
       
+      var openCommand = new wtk.util.Command();
+      goog.events.listen(openCommand, wtk.util.Command.EventType.EXECUTE, function(e) {
+        alert('simulating an open command...');
+      });
+      
       var saveCommand = new wtk.util.Command();
       goog.events.listen(saveCommand, wtk.util.Command.EventType.EXECUTE, function(e) {
         alert('simulating a save command...');
@@ -80,8 +85,11 @@
       var New = new wtk.menubar.MenuItem('New', wtk.icon.NEW_WIN);
       fileMenu.addItem(New);
       
-      var Open = new wtk.menubar.MenuItem('Open', wtk.icon.FOLDER_OPEN);
+      var AltO = 'alt+o';
+      var Open = new wtk.menubar.MenuItem('Open', wtk.icon.FOLDER_OPEN, AltO);
       fileMenu.addItem(Open);
+      saveCommand.attachControl(Open);
+      saveCommand.attachControl(new wtk.util.KeyboardShortcut(AltO, AltO));
       
       //Save menu item or F1 key will invoke the save command
       var F1 = 'F1';

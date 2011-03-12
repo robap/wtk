@@ -38,16 +38,6 @@ wtk.menubar.MenuItem = function(name, icon, opt_shortcutIdentifier, opt_domHelpe
 };
 goog.inherits(wtk.menubar.MenuItem, goog.ui.CustomButton);
 
-//;
-wtk.menubar.MenuItem.prototype.enterDocument = function() {
-  goog.base(this, 'enterDocument');
-  
-  var anchor = this.getElementByFragment(wtk.menubar.MenuItem.IdFragment.ANCHOR);
-  goog.events.listen(anchor, goog.events.EventType.CLICK, function(e) {
-    e.preventDefault();
-  });
-};
-
 /**
  * @return {string}
  */
@@ -94,7 +84,6 @@ wtk.menubar.MenuItem.prototype.getSubMenu = function() {
  * @enum {string}
  */
 wtk.menubar.MenuItem.IdFragment = {
-  ANCHOR: 'a',
   SUBMENU: 's'
 };
 
