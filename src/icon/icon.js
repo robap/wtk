@@ -25,7 +25,9 @@ wtk.icon = {
   DISK: 'ui-icon-disk',
   FOLDER_COLLAPSED: 'ui-icon-folder-collapsed',
   FOLDER_OPEN: 'ui-icon-folder-open',
+  ICON: 'ui-icon',
   INFO: 'ui-icon-info',
   NEW_WIN: 'ui-icon-newwin',
+  TRIANGLE_1_E: 'ui-icon-triangle-1-e',
   SEARCH: 'ui-icon-search'
 };

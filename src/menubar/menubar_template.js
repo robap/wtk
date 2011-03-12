@@ -60,10 +60,11 @@ wtk.templates.menubar.getMenuItemTemplate = function(item) {
     cssClass = 'ui-icon ' + cssClass;
   }
   
-  var anchor_id = goog.string.htmlEscape(item.makeId(wtk.menubar.MenuItem.IdFragment.ANCHOR));
+  var anchorId = goog.string.htmlEscape(item.makeId(wtk.menubar.MenuItem.IdFragment.ANCHOR));
+  var subMenuId = goog.string.htmlEscape(item.makeId(wtk.menubar.MenuItem.IdFragment.SUBMENU));
   
   var t = '<li class="ui-menu ui-menu-item" style="border: none; cursor: default;">'
-        +   '<a id="' + anchor_id + '" tabindex="-1" class="ui-corner-all" href="#" style="font-weight: normal;">'
+        +   '<a id="' + anchorId + '" tabindex="-1" class="ui-corner-all" href="#" style="font-weight: normal;">'
         +     '<div style="display: inline-block; position: relative; top: 2px; width: 16px; '
         +        'height: 16px; margin-right: 0.3em;" class="' + cssClass + '">'
         +      '</div>'
@@ -73,6 +74,7 @@ wtk.templates.menubar.getMenuItemTemplate = function(item) {
         +     '<div style="display: inline-block; margin-left:1em; width: 2.0em;">'
         +       shortcutId
         +     '</div>'
+        +     '<div id="' + subMenuId + '" style="display: inline-block; position: relative; top: 2px; width: 16px; height: 16px;"></div>'
         +   '</a>'
         + '</li>'
         ;

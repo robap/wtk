@@ -17,6 +17,7 @@ goog.require('wtk.menubar.MenuItem');
 
 goog.require('goog.testing.events');
 goog.require('goog.events');
+goog.require('wtk.menubar.Menu');
 
 describe('wtk.menubar.MenuItem', function() {
   var menuItem, name, icon, shortcutIdentifier;
@@ -25,7 +26,7 @@ describe('wtk.menubar.MenuItem', function() {
     icon = wtk.icon.FOLDER_OPEN;
     shortcutIdentifier = 'shift+s'
     menuItem = new wtk.menubar.MenuItem(name, icon, shortcutIdentifier);
-    menuItem.render();
+    //menuItem.render();
   });
   afterEach(function() {
     menuItem.dispose();
@@ -42,6 +43,20 @@ describe('wtk.menubar.MenuItem', function() {
     });
     it('prevents default click on anchor', function() {
       //TODO: figure out how to test this
+    });
+  });
+  describe('adding a sub menu', function() {
+    var submenu;
+    beforeEach(function() {
+      submenu = new wtk.menubar.Menu('foo');
+    });
+    it("dispatches SUBMENU_ADDED event", function() {
+      var dispatched = false;
+      goog.events.listenOnce(menuItem, wtk.menubar.MenuItem.EventType.SUBMENU_ADDED, function() {
+        dispatched = true;
+      });
+      menuItem.setSubMenu(submenu);
+      expect(dispatched).toBe(true);
     });
   });
 });

@@ -121,6 +121,8 @@ wtk.menubar.Menubar.prototype.connectListeners_ = function() {
   goog.events.listen(this, goog.ui.Component.EventType.ACTION, this.handleAction_, false, this);
   goog.events.listen(this, goog.ui.Component.EventType.ENTER, this.handleEnterEvent_, false, this);
   goog.events.listen(this.menuContainer_, goog.ui.Component.EventType.ACTION, this.handleMenuActionEvent_, false, this);
+  goog.events.listen(this.menuContainer_, wtk.menubar.MenuItem.EventType.SUBMENU_ADDED, this.handleSubMenuAddedEvent_, false, this);
+  goog.events.listen(this.menuContainer_, goog.ui.Component.EventType.ENTER, this.handleMenuItemEnterEvent_, false, this);
 };
 
 /**
@@ -173,6 +175,21 @@ wtk.menubar.Menubar.prototype.toggleMenu_ = function(menu, button) {
 /**
  * @private
  */
+wtk.menubar.Menubar.prototype.openSubMenu_ = function(menu, button) {
+  var visible = menu.isVisible();
+  
+  if(visible !== true) {
+    var offset = goog.style.getPageOffset(button.getElement());
+    var bounds = goog.style.getBounds(button.getElement());
+    offset.x = offset.x + bounds.width;
+    menu.setPosition(offset);
+    this.openMenu_(menu);
+  }
+};
+
+/**
+ * @private
+ */
 wtk.menubar.Menubar.prototype.hideOverlayAndMenus_ = function() {
   this.overlay_.setVisible(false);
   this.hideMenus_();
@@ -184,8 +201,7 @@ wtk.menubar.Menubar.prototype.hideOverlayAndMenus_ = function() {
  */
 wtk.menubar.Menubar.prototype.hideMenus_ = function(opt_ignoreMenu) {
   var ignoreId = (opt_ignoreMenu) ? goog.getUid(opt_ignoreMenu) : '';
-  var iter = this.buttonsAndMenus_.getValueIterator();
-  goog.iter.forEach(iter, function(menu){
+  this.menuContainer_.forEachChild(function(menu){
     if(goog.getUid(menu) !== ignoreId) {
       this.closeMenu_(menu);
     }
@@ -211,4 +227,39 @@ wtk.menubar.Menubar.prototype.handleEnterEvent_ = function(event) {
  */
 wtk.menubar.Menubar.prototype.handleMenuActionEvent_ = function() {
   this.hideOverlayAndMenus_();
+};
+
+/**
+ * @private
+ */
+wtk.menubar.Menubar.prototype.handleSubMenuAddedEvent_ = function(event) {
+  var item = event.target;
+  var menu = item.getSubMenu();
+  menu.setZIndex(this.getZIndex());
+  this.menuContainer_.addChild(menu, true);
+  
+  this.buttonsAndMenus_.set(goog.getUid(item), menu);
+};
+
+/**
+ * @private
+ */
+wtk.menubar.Menubar.prototype.handleMenuItemEnterEvent_ = function(event) {
+  var item = event.target;
+  
+  var parentMenu = item.getParent();
+  parentMenu.forEachChild(function(siblingItem) {
+    var siblingSubMenu = siblingItem.getSubMenu();
+    
+    if(siblingSubMenu !== null) {
+      siblingSubMenu.setVisible(false);
+    }
+  }, this);
+  
+  var subMenu = item.getSubMenu();
+  if(subMenu === null) {
+    return;
+  }
+  
+  this.openSubMenu_(subMenu, item);
 };

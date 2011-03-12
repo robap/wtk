@@ -63,9 +63,19 @@
       menubar.render(goog.dom.getElement('menubar'));
       
       var fileMenu = new wtk.menubar.Menu('File');
+      menubar.addMenu(fileMenu);
+      
       var editMenu = new wtk.menubar.Menu('Edit');
+       menubar.addMenu(editMenu);
+       
+      var viewMenu = new wtk.menubar.Menu('View');
+      menubar.addMenu(viewMenu);
+      
       var navMenu = new wtk.menubar.Menu('Navigate');
+      menubar.addMenu(navMenu);
+      
       var helpMenu = new wtk.menubar.Menu('Help');
+      menubar.addMenu(helpMenu);
       
       var New = new wtk.menubar.MenuItem('New', wtk.icon.NEW_WIN);
       fileMenu.addItem(New);
@@ -98,6 +108,18 @@
       var Redo = new wtk.menubar.MenuItem('Redo', wtk.icon.ARROW_RETURNTHICK_1_E);
       editMenu.addItem(Redo);
       
+      var Settings = new wtk.menubar.MenuItem('Settings');
+      viewMenu.addItem(Settings);
+      
+      var Reports = new wtk.menubar.MenuItem('Reports');
+      viewMenu.addItem(Reports);
+      var reportsSub = new wtk.menubar.Menu('');
+      Reports.setSubMenu(reportsSub);
+      var History = new wtk.menubar.MenuItem('History');
+      reportsSub.addItem(History);
+      var Log = new wtk.menubar.MenuItem('Log');
+      reportsSub.addItem(Log);
+      
       var Go = new wtk.menubar.MenuItem('Go');
       navMenu.addItem(Go);
       
@@ -107,10 +129,11 @@
       var About  = new wtk.menubar.MenuItem('About', wtk.icon.INFO);
       helpMenu.addItem(About);
       
-      menubar.addMenu(fileMenu);
-      menubar.addMenu(editMenu);
-      menubar.addMenu(navMenu);
-      menubar.addMenu(helpMenu);
+      
+     
+      
+      
+      
     </script>
   </body>
 </html>

@@ -32,6 +32,7 @@ wtk.menubar.MenuItem = function(name, icon, opt_shortcutIdentifier, opt_domHelpe
   this.name_ = name;
   this.icon_ = icon;
   this.shortcutIdentifier_ = opt_shortcutIdentifier;
+  this.subMenu_ = null;
   
   goog.base(this, '', renderer, opt_domHelper);
 };
@@ -69,8 +70,34 @@ wtk.menubar.MenuItem.prototype.getShortcutIdentifier = function() {
 };
 
 /**
+ * @param {wtk.menubar.Menu} menu
+ */
+wtk.menubar.MenuItem.prototype.setSubMenu = function(menu) {
+  if(this.getElement()) {
+    var submenuDiv = this.getElementByFragment(wtk.menubar.MenuItem.IdFragment.SUBMENU);
+    goog.dom.classes.add(submenuDiv, wtk.icon.ICON);
+    goog.dom.classes.add(submenuDiv, wtk.icon.TRIANGLE_1_E);
+  }
+  
+  this.subMenu_ = menu;
+  this.dispatchEvent(new goog.events.Event(wtk.menubar.MenuItem.EventType.SUBMENU_ADDED, this));
+};
+
+/**
+ * @return {wtk.menubar.Menu|null}
+ */
+wtk.menubar.MenuItem.prototype.getSubMenu = function() {
+  return this.subMenu_;
+};
+
+/**
  * @enum {string}
  */
 wtk.menubar.MenuItem.IdFragment = {
-  ANCHOR: 'a'
-}
+  ANCHOR: 'a',
+  SUBMENU: 's'
+};
+
+wtk.menubar.MenuItem.EventType = {
+  SUBMENU_ADDED: 'SUBMENU_ADDED'
+};

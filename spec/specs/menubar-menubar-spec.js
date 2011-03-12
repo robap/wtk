@@ -173,4 +173,53 @@ describe('wtk.menubar.Menubar', function() {
       });
     });
   });
+  describe('submenus', function() {
+    var menu, item, submenu;
+    beforeEach(function() {
+      submenu = new wtk.menubar.Menu();
+      menu = new wtk.menubar.Menu('foo');
+      item = new wtk.menubar.MenuItem();
+      menu.addItem(item);
+      menubar.addMenu(menu);
+      item.setSubMenu(submenu)
+    });
+    describe('SUBMENU_ADDED event', function() {
+      it('adds the submenu to the menucontainer', function() {
+        expect(menubar.menuContainer_.getChildAt(1)).toBe(submenu);
+      });
+      it('gives the submenu its own zIndex value', function() {
+        expect(submenu.zIndex_).toBe(menubar.getZIndex());
+      });
+    });
+    describe('hovering over a menu item', function() {
+      beforeEach(function() {
+        item.dispatchEvent(goog.ui.Component.EventType.ENTER);
+      });
+      describe('and the menu item contains a submenu', function() {
+        it('displays the submenu', function() {
+          expect(submenu.isVisible()).toBe(true);
+        });
+        it('sets the menu top left position equal to button top right position', function() {
+          item.dispatchEvent(goog.ui.Component.EventType.ENTER);
+          var offset = goog.style.getPageOffset(item.getElement());
+          var bounds = goog.style.getBounds(item.getElement());
+          offset.x = offset.x + bounds.width;
+          expect(submenu.coordinate_.x).toBe(offset.x);
+          expect(submenu.coordinate_.y).toBe(offset.y);
+        });
+        describe('then when a sibling item is hovered over', function() {
+          var siblingItem;
+          beforeEach(function() {
+            siblingItem = new wtk.menubar.MenuItem();
+            menu.addItem(siblingItem);
+            item.dispatchEvent(goog.ui.Component.EventType.LEAVE);
+            siblingItem.dispatchEvent(goog.ui.Component.EventType.ENTER);
+          });
+          it('hides the submenu', function() {
+            expect(submenu.isVisible()).toBe(false);
+          });
+        })
+      });
+    });
+  });
 });
