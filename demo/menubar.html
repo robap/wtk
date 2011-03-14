@@ -88,8 +88,8 @@
       var AltO = 'alt+o';
       var Open = new wtk.menubar.MenuItem('Open', wtk.icon.FOLDER_OPEN, AltO);
       fileMenu.addItem(Open);
-      saveCommand.attachControl(Open);
-      saveCommand.attachControl(new wtk.util.KeyboardShortcut(AltO, AltO));
+      openCommand.attachControl(Open);
+      openCommand.attachControl(new wtk.util.KeyboardShortcut(AltO, AltO));
       
       //Save menu item or F1 key will invoke the save command
       var F1 = 'F1';
