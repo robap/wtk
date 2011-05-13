@@ -19,3 +19,7 @@ goog.require('wtk.effects.FadeOut');
 goog.require('wtk.Dialog');
 goog.require('wtk.Button');
 goog.require('wtk.menubar.Menubar');
+goog.require('wtk.util.Command');
+goog.require('wtk.util.documentKeyboardShortcutHandler');
+goog.require('wtk.util.KeyboardShortcut');
+goog.require('wtk.util.window');

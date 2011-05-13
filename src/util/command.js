@@ -17,6 +17,10 @@ goog.provide('wtk.util.Command');
 goog.require('goog.events.EventTarget');
 goog.require('goog.structs.Set');
 
+/**
+ * @constructor
+ * @extends {goog.events.EventTarget}
+ */
 wtk.util.Command = function() {
   goog.base(this);
   
