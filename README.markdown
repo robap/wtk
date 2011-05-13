@@ -1,5 +1,7 @@
 Widget Toolkit
 
+See a live demo: [http://robap.github.com/wtk-showcase/](http://robap.github.com/wtk-showcase/)
+
 Description
 A widget toolkit/library to be used with projects built using google-closure.
 These widgets can be styled using jQuery UI Themeroller.
