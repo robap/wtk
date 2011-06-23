@@ -16,10 +16,50 @@ goog.provide('wtk.tab.TabRenderer');
 
 goog.require('goog.ui.ControlRenderer');
 
+/**
+ * @constructor
+ * @extends {goog.ui.ControlRenderer}
+ */
 wtk.tab.TabRenderer = function() {
   goog.base(this);
 };
 goog.inherits(wtk.tab.TabRenderer, goog.ui.ControlRenderer);
 goog.addSingletonGetter(wtk.tab.TabRenderer);
 
-wtk.tab.TabRenderer.CSS_CLASS = goog.getCssName('ui-tab');
+wtk.tab.TabRenderer.prototype.decorate = function(control, element) {
+  goog.dom.classes.add(element, 'ui-state-default', 'ui-corner-top');
+  
+  goog.base(this, 'decorate', control, element);
+  
+  return element;
+};
+
+/**
+ * @override
+ */
+wtk.tab.TabRenderer.prototype.getCssClass = function() {
+  return wtk.tab.TabRenderer.CSS_CLASS;
+};
+
+/**
+ * @override
+ */
+wtk.tab.TabRenderer.prototype.createClassByStateMap_ = function() {
+  var baseClass = this.getStructuralCssClass();
+
+  /**
+   * @type {Object}
+   * @private
+   */
+  this.classByState_ = goog.object.create(
+      goog.ui.Component.State.DISABLED, goog.getCssName(baseClass, 'state-disabled'),
+      goog.ui.Component.State.HOVER, goog.getCssName(baseClass, 'state-hover'),
+      goog.ui.Component.State.FOCUSED, goog.getCssName(baseClass, 'state-focus'),
+      goog.ui.Component.State.SELECTED, goog.getCssName(baseClass, 'state-active')
+    );
+};
+
+/**
+ * @type {string}
+ */
+wtk.tab.TabRenderer.CSS_CLASS = goog.getCssName('ui');

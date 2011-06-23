@@ -17,6 +17,10 @@ goog.provide('wtk.tab.TabBarRenderer');
 goog.require('goog.ui.TabBarRenderer');
 goog.require('wtk.tab.Tab');
 
+/**
+ * @constructor
+ * @extends {goog.ui.TabBarRenderer}
+ */
 wtk.tab.TabBarRenderer = function() {
   goog.base(this);
 };
@@ -29,6 +33,9 @@ goog.addSingletonGetter(wtk.tab.TabBarRenderer);
  */
 wtk.tab.TabBarRenderer.CSS_CLASS = goog.getCssName('ui-tabs-nav');
 
+/**
+ * @override
+ */
 wtk.tab.TabBarRenderer.prototype.getCssClass = function() {
   return wtk.tab.TabBarRenderer.CSS_CLASS;
 };
@@ -47,7 +54,7 @@ wtk.tab.TabBarRenderer.prototype.decorate = function(container, element) {
   }
   
   this.decorateChildren(container, element);
-  console.log('tab bar children', container.children_)
+  
   return element;
 };
 

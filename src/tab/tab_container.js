@@ -17,8 +17,60 @@ goog.provide('wtk.tab.TabContainer');
 goog.require('goog.ui.Container');
 goog.require('wtk.tab.TabContainerRenderer');
 
+/**
+ * @constructor
+ * @extends {goog.ui.Container}
+ */
 wtk.tab.TabContainer = function(opt_content, opt_renderer) {
   var renderer = opt_renderer || wtk.tab.TabContainerRenderer.getInstance();
   goog.base(this, opt_content, renderer);
 };
 goog.inherits(wtk.tab.TabContainer, goog.ui.Container);
+
+/**
+ * @param {wtk.tab.TabContainer} tabContainer
+ */
+wtk.tab.TabContainer.prototype.setTabContainer = function(tabContainer) {
+  this.tabContainer_ = tabContainer;
+}
+
+/**
+ * @override
+ */
+wtk.tab.TabContainer.prototype.enterDocument = function() {
+  goog.base(this, 'enterDocument');
+  
+  this.tabContainer_.forEachChild(function(tab) {
+    var ref_id = tab.getContentReferenceId();
+    this.forEachChild(function(contentTab) {
+      if(ref_id === contentTab.getElement().id) {
+        tab.setContentTab(contentTab);
+      }
+    });
+  }, this);
+  
+  goog.events.listen(this.tabContainer_, goog.ui.Component.EventType.ACTION, this.handleMenuBar_, false, this);
+  
+  //for now, default the active tab to the first one
+  this.activateTab(this.tabContainer_.getChildAt(0));
+};
+
+/**
+ * Activates the supplied tab. Deactivates others in this container
+ * 
+ * @param {wtk.tab.Tab} activeTab
+ */
+wtk.tab.TabContainer.prototype.activateTab = function(activeTab) {
+  this.tabContainer_.forEachChild(function(tab) {
+      tab.setSelected(true);
+      tab.setSelected(false);
+  });
+  activeTab.setSelected(true);
+};
+
+/**
+ * @private
+ */
+wtk.tab.TabContainer.prototype.handleMenuBar_ = function(event) {
+  this.activateTab(event.target);
+};

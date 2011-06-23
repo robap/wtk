@@ -17,6 +17,10 @@ goog.provide('wtk.tab.TabBar');
 goog.require('goog.ui.Container');
 goog.require('wtk.tab.TabBarRenderer');
 
+/**
+ * @constructor
+ * @extends {goog.ui.Container}
+ */
 wtk.tab.TabBar = function(opt_location) {
   goog.base(this, opt_location, wtk.tab.TabBarRenderer.getInstance());
 };

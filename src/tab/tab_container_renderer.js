@@ -16,7 +16,12 @@ goog.provide('wtk.tab.TabContainerRenderer');
 
 goog.require('goog.ui.ContainerRenderer');
 goog.require('wtk.tab.TabBar');
+goog.require('wtk.tab.TabContent');
 
+/**
+ * @constructor
+ * @extends {goog.ui.ContainerRenderer}
+ */
 wtk.tab.TabContainerRenderer = function() {
   goog.base(this);
 };
@@ -34,21 +39,14 @@ wtk.tab.TabContainerRenderer.prototype.decorate = function(container, element) {
   if(uls.length === 1) {
     tabBar.decorate(uls[0]);
   }
+  container.setTabContainer(tabBar);
   
-
-//  
-//  goog.dom.classes.add(ul, 'ui-tabs-nav'); //, 'ui-helper-reset', 'ui-helper-clearfix', 'ui-widget-header', 'ui-corner-all');
+  var divs = goog.dom.getElementsByTagNameAndClass('div', null, element);
+  goog.array.forEach(divs, function(div){
+    goog.dom.classes.add(div, wtk.tab.TabContentRenderer.CSS_CLASS);
+  });
   
-//  var lis = goog.dom.getElementsByTagNameAndClass('li', null, ul);
-//  goog.array.forEach(lis, function(li) {
-//    goog.dom.classes.add(li, 'ui-tab', 'ui-corner-top', 'ui-state-active');
-//  });
-  
-//  var divs = goog.dom.getElementsByTagNameAndClass('div', null, element);
-//  goog.array.forEach(divs, function(div) {
-//    goog.dom.classes.add(div, 'ui-tabs-panel', 'ui-widget-content', 'ui-corner-bottom');
-//  });
-  
+  this.decorateChildren(container, element);
   
   return element;
 };
