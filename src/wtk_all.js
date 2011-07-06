@@ -23,3 +23,4 @@ goog.require('wtk.util.Command');
 goog.require('wtk.util.documentKeyboardShortcutHandler');
 goog.require('wtk.util.KeyboardShortcut');
 goog.require('wtk.util.window');
+goog.require('wtk.grid.Grid');
